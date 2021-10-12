@@ -1,16 +1,31 @@
-import { connect } from "react-redux";
-import { logout } from "../../actions/session_actions";
-import Greeting from "./greeting_container";
+import React from "react";
+import { Link } from "react-router-dom";
 
-const mapStateToProps = ({entities: {users}, session }) => ({
-    currentUser: users[session.id]
-})
+const Greeting = (props) => {
 
-const mapDispatchToProps = dispatch => ({
-    logout: () => dispatch(logout())
-})
+    let greetingContent;
 
-export default connect(
-    mapStateToProps, 
-    mapDispatchToProps
-)(Greeting);
+    if (props.currentUser) {
+        greetingContent = (
+            <div>
+                <h3>Welcome, {props.currentUser.username}</h3>
+                <button onClick={props.logout}>Logout</button>
+            </div>
+        )
+    } else {
+        greetingContent = (
+            <div>
+                <Link to="/login">Log In</Link>
+                <Link to="/signup">Sign Up</Link>
+            </div>
+        )
+    }
+
+    return (
+        <div className="greeting">
+            {greetingContent}
+        </div>
+    );
+}
+
+export default Greeting;
