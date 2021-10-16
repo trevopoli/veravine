@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_29_014515) do
+ActiveRecord::Schema.define(version: 2021_10_16_022712) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,6 +26,19 @@ ActiveRecord::Schema.define(version: 2021_09_29_014515) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["session_token"], name: "index_users_on_session_token", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
+  end
+
+  create_table "wines", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "brand", null: false
+    t.string "variety", null: false
+    t.string "category", null: false
+    t.string "location", null: false
+    t.integer "vintage_year", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["brand", "variety", "category", "vintage_year"], name: "index_wines_on_brand_and_variety_and_category_and_vintage_year", unique: true
+    t.index ["user_id"], name: "index_wines_on_user_id"
   end
 
 end
