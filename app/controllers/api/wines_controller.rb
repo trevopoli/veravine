@@ -1,4 +1,5 @@
 class Api::WinesController < ApplicationController
+    before_action :require_logged_in, only: [:create]
 
     def index
         @wines = Wine.all
@@ -7,11 +8,24 @@ class Api::WinesController < ApplicationController
     end
 
     def show
+        @wine = Wine.find_by(id: params[:id])
 
+        if @wine
+            render :show
+        else
+            render json: @wine.errors.full_messages, status: 404
+            # insert 404 page
+        end
     end
 
     def create
-
+        @wine = Wine.new(wine_params)
+        
+        if @wine.save
+            render :show
+        else
+            render json: @wine.errors.full_messages, status: 422
+        end
     end
 
     def destroy
@@ -21,6 +35,6 @@ class Api::WinesController < ApplicationController
     private
 
     def wine_params
-        params.require(:wine).permit()
+        params.require(:wine).permit(:brand, :category, :variety, :location, :vintage_year, :user_id)
     end
 end

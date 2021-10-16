@@ -12,10 +12,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "RECEIVE_CURRENT_USER": () => (/* binding */ RECEIVE_CURRENT_USER),
 /* harmony export */   "LOGOUT_CURRENT_USER": () => (/* binding */ LOGOUT_CURRENT_USER),
-/* harmony export */   "RECEIVE_ERRORS": () => (/* binding */ RECEIVE_ERRORS),
+/* harmony export */   "RECEIVE_SESSION_ERRORS": () => (/* binding */ RECEIVE_SESSION_ERRORS),
 /* harmony export */   "receiveCurrentUser": () => (/* binding */ receiveCurrentUser),
 /* harmony export */   "logoutCurrentUser": () => (/* binding */ logoutCurrentUser),
-/* harmony export */   "receiveErrors": () => (/* binding */ receiveErrors),
+/* harmony export */   "receiveSessionErrors": () => (/* binding */ receiveSessionErrors),
 /* harmony export */   "login": () => (/* binding */ login),
 /* harmony export */   "logout": () => (/* binding */ logout),
 /* harmony export */   "signup": () => (/* binding */ signup)
@@ -24,7 +24,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var RECEIVE_CURRENT_USER = "RECEIVE_CURRENT_USER";
 var LOGOUT_CURRENT_USER = "LOGOUT_CURRENT_USER";
-var RECEIVE_ERRORS = "RECEIVE_ERRORS";
+var RECEIVE_SESSION_ERRORS = "RECEIVE_SESSION_ERRORS";
 var receiveCurrentUser = function receiveCurrentUser(user) {
   return {
     type: RECEIVE_CURRENT_USER,
@@ -36,9 +36,9 @@ var logoutCurrentUser = function logoutCurrentUser() {
     type: LOGOUT_CURRENT_USER
   };
 };
-var receiveErrors = function receiveErrors(errors) {
+var receiveSessionErrors = function receiveSessionErrors(errors) {
   return {
-    type: RECEIVE_ERRORS,
+    type: RECEIVE_SESSION_ERRORS,
     errors: errors
   };
 };
@@ -47,7 +47,7 @@ var login = function login(user) {
     return _util_session_api_util__WEBPACK_IMPORTED_MODULE_0__.login(user).then(function (user) {
       return dispatch(receiveCurrentUser(user));
     }, function (errors) {
-      return dispatch(receiveErrors(errors));
+      return dispatch(receiveSessionErrors(errors));
     });
   };
 };
@@ -56,7 +56,7 @@ var logout = function logout() {
     return _util_session_api_util__WEBPACK_IMPORTED_MODULE_0__.logout().then(function () {
       return dispatch(logoutCurrentUser());
     }, function (errors) {
-      return dispatch(receiveErrors(errors));
+      return dispatch(receiveSessionErrors(errors.responseJSON));
     });
   };
 };
@@ -65,7 +65,7 @@ var signup = function signup(user) {
     return _util_session_api_util__WEBPACK_IMPORTED_MODULE_0__.signup(user).then(function (user) {
       return dispatch(receiveCurrentUser(user));
     }, function (errors) {
-      return dispatch(receiveErrors(errors));
+      return dispatch(receiveSessionErrors(errors.responseJSON));
     });
   };
 };
@@ -83,23 +83,49 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "RECEIVE_WINES": () => (/* binding */ RECEIVE_WINES),
 /* harmony export */   "RECEIVE_WINE": () => (/* binding */ RECEIVE_WINE),
+/* harmony export */   "RECEIVE_WINE_ERRORS": () => (/* binding */ RECEIVE_WINE_ERRORS),
 /* harmony export */   "receiveWines": () => (/* binding */ receiveWines),
-/* harmony export */   "fetchWines": () => (/* binding */ fetchWines)
+/* harmony export */   "receiveWine": () => (/* binding */ receiveWine),
+/* harmony export */   "receiveWineErrors": () => (/* binding */ receiveWineErrors),
+/* harmony export */   "fetchWines": () => (/* binding */ fetchWines),
+/* harmony export */   "createWine": () => (/* binding */ createWine)
 /* harmony export */ });
 /* harmony import */ var _util_wine_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/wine_api_util */ "./frontend/util/wine_api_util.js");
 
 var RECEIVE_WINES = "RECEIVE_WINES";
 var RECEIVE_WINE = "RECEIVE_WINE";
+var RECEIVE_WINE_ERRORS = "RECEIVE_WINE_ERRORS";
 var receiveWines = function receiveWines(wines) {
   return {
     type: RECEIVE_WINES,
     wines: wines
   };
 };
+var receiveWine = function receiveWine(wine) {
+  return {
+    type: RECEIVE_WINE,
+    wine: wine
+  };
+};
+var receiveWineErrors = function receiveWineErrors(errors) {
+  return {
+    type: RECEIVE_WINE_ERRORS,
+    errors: errors
+  };
+};
 var fetchWines = function fetchWines(filters) {
   return function (dispatch) {
     return _util_wine_api_util__WEBPACK_IMPORTED_MODULE_0__.fetchWines(filters).then(function (wines) {
       return dispatch(receiveWines(wines));
+    });
+  };
+};
+var createWine = function createWine(wine) {
+  return function (dispatch) {
+    return _util_wine_api_util__WEBPACK_IMPORTED_MODULE_0__.createWine(wine).then(function (wine) {
+      return dispatch(receiveWine(wine));
+    }, function (errors) {
+      return dispatch(receiveWineErrors(errors.responseJSON));
     });
   };
 };
@@ -122,8 +148,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _session_form_login_form_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./session_form/login_form_container */ "./frontend/components/session_form/login_form_container.js");
 /* harmony import */ var _session_form_signup_form_container__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./session_form/signup_form_container */ "./frontend/components/session_form/signup_form_container.js");
 /* harmony import */ var _wine_list_wine_list_container__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./wine_list/wine_list_container */ "./frontend/components/wine_list/wine_list_container.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
-/* harmony import */ var _util_route_util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../util/route_util */ "./frontend/util/route_util.js");
+/* harmony import */ var _wine_form_wine_form_container__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./wine_form/wine_form_container */ "./frontend/components/wine_form/wine_form_container.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _util_route_util__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../util/route_util */ "./frontend/util/route_util.js");
+
 
 
 
@@ -134,13 +163,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var App = function App() {
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("header", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "Veravine"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_greeting_greeting_container__WEBPACK_IMPORTED_MODULE_1__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_5__.AuthRoute, {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("header", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_7__.Link, {
+    to: "/"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "Veravine")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_greeting_greeting_container__WEBPACK_IMPORTED_MODULE_1__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_6__.AuthRoute, {
     path: "/login",
     component: _session_form_login_form_container__WEBPACK_IMPORTED_MODULE_2__["default"]
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_5__.AuthRoute, {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_6__.AuthRoute, {
     path: "/signup",
     component: _session_form_signup_form_container__WEBPACK_IMPORTED_MODULE_3__["default"]
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Switch, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__.Route, {
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Switch, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_6__.ProtectedRoute, {
+    exact: true,
+    path: "/wines/new",
+    component: _wine_form_wine_form_container__WEBPACK_IMPORTED_MODULE_5__["default"]
+  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_8__.Route, {
     exact: true,
     path: "/",
     component: _wine_list_wine_list_container__WEBPACK_IMPORTED_MODULE_4__["default"]
@@ -279,9 +314,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var mapStateToProps = function mapStateToProps(_ref) {
-  var errors = _ref.errors;
+  var session = _ref.errors.session;
   return {
-    errors: errors,
+    errors: session,
     formType: 'login'
   };
 };
@@ -459,9 +494,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var mapStateToProps = function mapStateToProps(_ref) {
-  var errors = _ref.errors;
+  var session = _ref.errors.session;
   return {
-    errors: errors,
+    errors: session,
     formType: 'signup'
   };
 };
@@ -478,6 +513,216 @@ var mapDispatchToProps = function mapDispatchToProps(dipatch) {
 
 /***/ }),
 
+/***/ "./frontend/components/wine_form/wine_form.jsx":
+/*!*****************************************************!*\
+  !*** ./frontend/components/wine_form/wine_form.jsx ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+var WineForm = /*#__PURE__*/function (_React$Component) {
+  _inherits(WineForm, _React$Component);
+
+  var _super = _createSuper(WineForm);
+
+  function WineForm(props) {
+    var _this;
+
+    _classCallCheck(this, WineForm);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      brand: "",
+      category: "Red",
+      variety: "",
+      location: "",
+      vintage: 2021
+    };
+    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(WineForm, [{
+    key: "handleSubmit",
+    value: function handleSubmit(e) {
+      var _this2 = this;
+
+      e.preventDefault();
+      var wineFormData = new FormData();
+      wineFormData.append('wine[brand]', this.state.brand);
+      wineFormData.append('wine[category]', this.state.category);
+      wineFormData.append('wine[variety]', this.state.variety);
+      wineFormData.append('wine[location]', this.state.location);
+      wineFormData.append('wine[vintage_year]', this.state.vintage);
+      wineFormData.append('wine[user_id]', this.props.userId);
+      this.props.createWine(wineFormData).then(function () {
+        return _this2.props.history.push("/");
+      });
+    }
+  }, {
+    key: "handleChange",
+    value: function handleChange(field) {
+      var _this3 = this;
+
+      return function (e) {
+        return _this3.setState(_defineProperty({}, field, e.target.value));
+      };
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var errorList = null;
+
+      if (this.props.errors) {
+        errorList = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
+          className: "wine-form-errors"
+        }, this.props.errors.map(function (err, idx) {
+          return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
+            key: idx
+          }, err);
+        }));
+      }
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        className: "wine-form-container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", {
+        className: "new-wine-form-title"
+      }, "Add a new wine"), errorList, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", {
+        className: "new-wine-form",
+        onSubmit: this.handleSubmit
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
+        className: "new-wine-brand"
+      }, "Brand "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+        type: "text",
+        value: this.state.brand,
+        onChange: this.handleChange('brand'),
+        className: "new-wine-brand"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
+        className: "new-wine-category"
+      }, "Category "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("select", {
+        size: "6",
+        value: this.state.category,
+        onChange: this.handleChange('category'),
+        className: "new-wine-category"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
+        value: "Red"
+      }, "Red"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
+        value: "White"
+      }, "White"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
+        value: "Rose"
+      }, "Ros\xE9"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
+        value: "Sparkling"
+      }, "Sparkling"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
+        value: "Dessert"
+      }, "Dessert"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
+        value: "Fortified"
+      }, "Fortified")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
+        className: "new-wine-variety"
+      }, "Variety "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+        type: "text",
+        value: this.state.variety,
+        onChange: this.handleChange('variety'),
+        className: "new-wine-variety"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
+        className: "new-wine-location"
+      }, "Location "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+        type: "text",
+        value: this.state.location,
+        onChange: this.handleChange('location'),
+        className: "new-wine-location"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
+        className: "new-wine-vintage"
+      }, "Vintage "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+        type: "number",
+        min: "1773",
+        value: this.state.vintage,
+        onChange: this.handleChange('vintage'),
+        className: "new-wine-vintage"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+        type: "submit",
+        value: "Add Wine",
+        className: "new-wine-submit"
+      })));
+    }
+  }]);
+
+  return WineForm;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (WineForm);
+
+/***/ }),
+
+/***/ "./frontend/components/wine_form/wine_form_container.js":
+/*!**************************************************************!*\
+  !*** ./frontend/components/wine_form/wine_form_container.js ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _actions_wine_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/wine_actions */ "./frontend/actions/wine_actions.js");
+/* harmony import */ var _wine_form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./wine_form */ "./frontend/components/wine_form/wine_form.jsx");
+
+
+
+
+var mapStateToProps = function mapStateToProps(_ref) {
+  var errors = _ref.errors,
+      session = _ref.session;
+  return {
+    errors: errors.wine,
+    userId: session.id
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    createWine: function createWine(wine) {
+      return dispatch((0,_actions_wine_actions__WEBPACK_IMPORTED_MODULE_1__.createWine)(wine));
+    }
+  };
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_0__.connect)(mapStateToProps, mapDispatchToProps)(_wine_form__WEBPACK_IMPORTED_MODULE_2__["default"]));
+
+/***/ }),
+
 /***/ "./frontend/components/wine_list/wine_list.jsx":
 /*!*****************************************************!*\
   !*** ./frontend/components/wine_list/wine_list.jsx ***!
@@ -491,6 +736,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _wine_list_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./wine_list_item */ "./frontend/components/wine_list/wine_list_item.jsx");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -512,6 +758,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -543,7 +790,9 @@ var WineList = /*#__PURE__*/function (_React$Component) {
           wine: wine,
           key: wine.id
         });
-      })));
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
+        to: "/wines/new"
+      }, "add a new wine"));
     }
   }]);
 
@@ -605,6 +854,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 
+
 var WineListItem = function WineListItem(_ref) {
   var wine = _ref.wine;
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
@@ -652,12 +902,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _session_errors_reducer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./session_errors_reducer */ "./frontend/reducers/session_errors_reducer.js");
+/* harmony import */ var _wine_errors_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./wine_errors_reducer */ "./frontend/reducers/wine_errors_reducer.js");
 
 
-var errorsReducer = (0,redux__WEBPACK_IMPORTED_MODULE_1__.combineReducers)({
-  session: _session_errors_reducer__WEBPACK_IMPORTED_MODULE_0__["default"]
+
+var errorsReducer = (0,redux__WEBPACK_IMPORTED_MODULE_2__.combineReducers)({
+  session: _session_errors_reducer__WEBPACK_IMPORTED_MODULE_0__["default"],
+  wine: _wine_errors_reducer__WEBPACK_IMPORTED_MODULE_1__["default"]
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (errorsReducer);
 
@@ -711,7 +964,7 @@ var sessionErrorsReducer = function sessionErrorsReducer() {
   Object.freeze(state);
 
   switch (action.type) {
-    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__.RECEIVE_ERRORS:
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__.RECEIVE_SESSION_ERRORS:
       return action.errors;
 
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__.RECEIVE_CURRENT_USER:
@@ -799,6 +1052,41 @@ var usersReducer = function usersReducer() {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (usersReducer);
+
+/***/ }),
+
+/***/ "./frontend/reducers/wine_errors_reducer.js":
+/*!**************************************************!*\
+  !*** ./frontend/reducers/wine_errors_reducer.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _actions_wine_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/wine_actions */ "./frontend/actions/wine_actions.js");
+
+
+var wineErrorsReducer = function wineErrorsReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(state);
+
+  switch (action.type) {
+    case _actions_wine_actions__WEBPACK_IMPORTED_MODULE_0__.RECEIVE_WINE_ERRORS:
+      return action.errors;
+
+    case _actions_wine_actions__WEBPACK_IMPORTED_MODULE_0__.RECEIVE_WINE:
+      return [];
+
+    default:
+      return state;
+  }
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (wineErrorsReducer);
 
 /***/ }),
 
@@ -999,7 +1287,13 @@ var fetchWine = function fetchWine(wineId) {
   });
 };
 var createWine = function createWine(wine) {
-  return $.ajax({});
+  return $.ajax({
+    method: 'POST',
+    url: '/api/wines',
+    data: wine,
+    processData: false,
+    contentType: false
+  });
 };
 
 /***/ }),

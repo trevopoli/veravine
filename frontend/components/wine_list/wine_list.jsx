@@ -1,5 +1,6 @@
 import React from "react";
 import WineListItem from "./wine_list_item";
+import { Link } from "react-router-dom";
 
 class WineList extends React.Component {
     constructor(props) {
@@ -17,6 +18,7 @@ class WineList extends React.Component {
                 <ul>
                     {winesArray.map(wine => <WineListItem wine={wine} key={wine.id} />)}
                 </ul>
+                <Link to="/wines/new">add a new wine</Link>
             </div>
         )
     }

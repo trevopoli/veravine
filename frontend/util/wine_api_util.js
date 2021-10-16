@@ -17,6 +17,10 @@ export const fetchWine = wineId => (
 
 export const createWine = wine => (
     $.ajax({
-
+        method: 'POST',
+        url: '/api/wines',
+        data: wine,
+        processData: false,
+        contentType: false
     })
 )
