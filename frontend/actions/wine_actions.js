@@ -31,3 +31,9 @@ export const createWine = wine => dispatch => (
         errors => dispatch(receiveWineErrors(errors.responseJSON))
     )
 )
+
+export const fetchWine = wineId => dispatch => (
+    WineAPIUtil.fetchWine(wineId).then(
+        wine => dispatch(receiveWine(wine))
+    )
+)
