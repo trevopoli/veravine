@@ -1,6 +1,72 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./frontend/actions/rating_actions.js":
+/*!********************************************!*\
+  !*** ./frontend/actions/rating_actions.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "RECEIVE_RATINGS": () => (/* binding */ RECEIVE_RATINGS),
+/* harmony export */   "RECEIVE_RATING": () => (/* binding */ RECEIVE_RATING),
+/* harmony export */   "DELETE_RATING": () => (/* binding */ DELETE_RATING),
+/* harmony export */   "receiveRatings": () => (/* binding */ receiveRatings),
+/* harmony export */   "receiveRating": () => (/* binding */ receiveRating),
+/* harmony export */   "deleteRating": () => (/* binding */ deleteRating),
+/* harmony export */   "createRating": () => (/* binding */ createRating),
+/* harmony export */   "fetchRatings": () => (/* binding */ fetchRatings),
+/* harmony export */   "destroyRating": () => (/* binding */ destroyRating)
+/* harmony export */ });
+/* harmony import */ var _util_rating_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/rating_api_util */ "./frontend/util/rating_api_util.js");
+
+var RECEIVE_RATINGS = "RECEIVE_RATINGS";
+var RECEIVE_RATING = "RECEIVE_RATING";
+var DELETE_RATING = "DELETE_RATING";
+var receiveRatings = function receiveRatings(ratings) {
+  return {
+    type: RECEIVE_RATINGS,
+    ratings: ratings
+  };
+};
+var receiveRating = function receiveRating(rating) {
+  return {
+    type: RECEIVE_RATING,
+    rating: rating
+  };
+};
+var deleteRating = function deleteRating(ratingId) {
+  return {
+    type: DELETE_RATING,
+    ratingId: ratingId
+  };
+};
+var createRating = function createRating(rating) {
+  return function (dispatch) {
+    return _util_rating_api_util__WEBPACK_IMPORTED_MODULE_0__.createRating(rating).then(function (rating) {
+      return dispatch(receiveRating(rating));
+    });
+  };
+};
+var fetchRatings = function fetchRatings(wineId) {
+  return function (dispatch) {
+    return _util_rating_api_util__WEBPACK_IMPORTED_MODULE_0__.fetchRatings(wineId).then(function (ratings) {
+      return dispatch(receiveRatings(ratings));
+    });
+  };
+};
+var destroyRating = function destroyRating(ratingId) {
+  return function (dispatch) {
+    return _util_rating_api_util__WEBPACK_IMPORTED_MODULE_0__.destroyRating(ratingId).then(function (ratingId) {
+      return dispatch(deleteRating(ratingId));
+    });
+  };
+};
+
+/***/ }),
+
 /***/ "./frontend/actions/session_actions.js":
 /*!*********************************************!*\
   !*** ./frontend/actions/session_actions.js ***!
@@ -278,6 +344,283 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 /***/ }),
 
+/***/ "./frontend/components/rating_form/rating_form.jsx":
+/*!*********************************************************!*\
+  !*** ./frontend/components/rating_form/rating_form.jsx ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+var RatingForm = /*#__PURE__*/function (_React$Component) {
+  _inherits(RatingForm, _React$Component);
+
+  var _super = _createSuper(RatingForm);
+
+  function RatingForm(props) {
+    var _this;
+
+    _classCallCheck(this, RatingForm);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      value: 10,
+      comment: ""
+    };
+    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(RatingForm, [{
+    key: "handleSubmit",
+    value: function handleSubmit(e) {
+      var _this2 = this;
+
+      e.preventDefault();
+      var ratingFormData = new FormData();
+      ratingFormData.append('rating[wine_id]', this.props.wineId);
+      ratingFormData.append('rating[user_id]', this.props.userId);
+      ratingFormData.append('rating[value]', this.state.value);
+      ratingFormData.append('rating[comment]', this.state.comment);
+      this.props.createRating(ratingFormData).then(function () {
+        return _this2.setState({
+          value: _this2.state.value,
+          comment: ""
+        });
+      });
+    }
+  }, {
+    key: "handleChange",
+    value: function handleChange(field) {
+      var _this3 = this;
+
+      return function (e) {
+        return _this3.setState(_defineProperty({}, field, e.target.value));
+      };
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        className: "rating-form-container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", {
+        className: "rating-form",
+        onSubmit: this.handleSubmit
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+        type: "number",
+        className: "rating-form-value",
+        min: "1",
+        max: "10",
+        value: this.state.value,
+        onChange: this.handleChange('value')
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("textarea", {
+        className: "rating-form-comment",
+        value: this.state.comment,
+        onChange: this.handleChange('comment')
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+        type: "submit",
+        className: "rating-form-submit",
+        value: "Submit Rating"
+      })));
+    }
+  }]);
+
+  return RatingForm;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (RatingForm);
+
+/***/ }),
+
+/***/ "./frontend/components/rating_form/rating_form_container.js":
+/*!******************************************************************!*\
+  !*** ./frontend/components/rating_form/rating_form_container.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _rating_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./rating_form */ "./frontend/components/rating_form/rating_form.jsx");
+/* harmony import */ var _actions_rating_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/rating_actions */ "./frontend/actions/rating_actions.js");
+
+
+
+
+
+var mapStateToProps = function mapStateToProps(_ref) {
+  var errors = _ref.errors,
+      session = _ref.session;
+  return {
+    userId: session.id
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    createRating: function createRating(rating) {
+      return dispatch((0,_actions_rating_actions__WEBPACK_IMPORTED_MODULE_2__.createRating)(rating));
+    }
+  };
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_0__.connect)(mapStateToProps, mapDispatchToProps)(_rating_form__WEBPACK_IMPORTED_MODULE_1__["default"]));
+
+/***/ }),
+
+/***/ "./frontend/components/rating_list/rating_list.jsx":
+/*!*********************************************************!*\
+  !*** ./frontend/components/rating_list/rating_list.jsx ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _rating_list_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./rating_list_item */ "./frontend/components/rating_list/rating_list_item.jsx");
+
+
+
+
+var RatingList = function RatingList(_ref) {
+  var ratings = _ref.ratings,
+      destroyRating = _ref.destroyRating,
+      userId = _ref.userId;
+  var ratingsList;
+
+  if (typeof ratings == 'undefined') {
+    ratingsList = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+      className: "no-ratings"
+    }, "no ratings yet");
+  } else {
+    var ratingsArray = Object.values(ratings);
+    ratingsList = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", null, ratingsArray.map(function (rating) {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_rating_list_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        rating: rating,
+        destroyRating: destroyRating,
+        userId: userId,
+        key: rating.id
+      });
+    }));
+  }
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "rating-list-container"
+  }, ratingsList);
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (RatingList);
+
+/***/ }),
+
+/***/ "./frontend/components/rating_list/rating_list_container.js":
+/*!******************************************************************!*\
+  !*** ./frontend/components/rating_list/rating_list_container.js ***!
+  \******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _rating_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./rating_list */ "./frontend/components/rating_list/rating_list.jsx");
+/* harmony import */ var _actions_rating_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/rating_actions */ "./frontend/actions/rating_actions.js");
+
+
+
+
+var mapStateToProps = function mapStateToProps(_ref) {
+  var ratings = _ref.entities.ratings,
+      session = _ref.session;
+  return {
+    ratings: ratings,
+    userId: session.id
+  };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    destroyRating: function destroyRating(ratingId) {
+      return dispatch((0,_actions_rating_actions__WEBPACK_IMPORTED_MODULE_2__.destroyRating)(ratingId));
+    }
+  };
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_0__.connect)(mapStateToProps, mapDispatchToProps)(_rating_list__WEBPACK_IMPORTED_MODULE_1__["default"]));
+
+/***/ }),
+
+/***/ "./frontend/components/rating_list/rating_list_item.jsx":
+/*!**************************************************************!*\
+  !*** ./frontend/components/rating_list/rating_list_item.jsx ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+
+var RatingListItem = function RatingListItem(_ref) {
+  var rating = _ref.rating,
+      destroyRating = _ref.destroyRating,
+      userId = _ref.userId;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "rating-item-value"
+  }, rating.value), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "rating-item-comment"
+  }, rating.comment), rating.user_id === userId ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    onClick: function onClick() {
+      return destroyRating(rating.id);
+    }
+  }, "Delete rating") : null);
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (RatingListItem);
+
+/***/ }),
+
 /***/ "./frontend/components/root.jsx":
 /*!**************************************!*\
   !*** ./frontend/components/root.jsx ***!
@@ -400,7 +743,8 @@ var SessionForm = /*#__PURE__*/function (_React$Component) {
     _this = _super.call(this, props);
     _this.state = {
       username: "",
-      password: ""
+      password: "",
+      email: ""
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
@@ -469,6 +813,11 @@ var SessionForm = /*#__PURE__*/function (_React$Component) {
         className: "session-form-username",
         value: this.state.username,
         onChange: this.handleChange('username')
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", null, "Email: "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+        type: "text",
+        className: "session-form-email",
+        value: this.state.email,
+        onChange: this.handleChange('email')
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", null, "Password: "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
         type: "password",
         className: "session-form-password",
@@ -895,6 +1244,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _rating_form_rating_form_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../rating_form/rating_form_container */ "./frontend/components/rating_form/rating_form_container.js");
+/* harmony import */ var _rating_list_rating_list_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../rating_list/rating_list_container */ "./frontend/components/rating_list/rating_list_container.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -919,6 +1270,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
+
 var WineShow = /*#__PURE__*/function (_React$Component) {
   _inherits(WineShow, _React$Component);
 
@@ -938,6 +1291,7 @@ var WineShow = /*#__PURE__*/function (_React$Component) {
       }
 
       ;
+      this.props.fetchRatings(this.props.wineId);
     }
   }, {
     key: "render",
@@ -948,7 +1302,13 @@ var WineShow = /*#__PURE__*/function (_React$Component) {
         this.wine = this.props.wine;
         rendering = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
           className: "wine-show-container"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null, this.wine.brand), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, this.wine.variety));
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null, this.wine.brand), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, this.wine.variety), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+          className: "rating-form-with-title"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "Rate this wine"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_rating_form_rating_form_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
+          wineId: this.props.wineId
+        })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+          className: "rating-list-with-title"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "Recent ratings"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_rating_list_rating_list_container__WEBPACK_IMPORTED_MODULE_2__["default"], null)));
       } else {
         rendering = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
           className: "null-holder"
@@ -980,6 +1340,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _wine_show__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./wine_show */ "./frontend/components/wine_show/wine_show.jsx");
 /* harmony import */ var _actions_wine_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/wine_actions */ "./frontend/actions/wine_actions.js");
+/* harmony import */ var _actions_rating_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/rating_actions */ "./frontend/actions/rating_actions.js");
+
 
 
 
@@ -997,6 +1359,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     fetchWine: function fetchWine(wineId) {
       return dispatch((0,_actions_wine_actions__WEBPACK_IMPORTED_MODULE_2__.fetchWine)(wineId));
+    },
+    fetchRatings: function fetchRatings(wineId) {
+      return dispatch((0,_actions_rating_actions__WEBPACK_IMPORTED_MODULE_3__.fetchRatings)(wineId));
     }
   };
 };
@@ -1016,15 +1381,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _users_reducer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./users_reducer */ "./frontend/reducers/users_reducer.js");
 /* harmony import */ var _wines_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./wines_reducer */ "./frontend/reducers/wines_reducer.js");
+/* harmony import */ var _ratings_reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ratings_reducer */ "./frontend/reducers/ratings_reducer.js");
 
 
 
-var entitiesReducer = (0,redux__WEBPACK_IMPORTED_MODULE_2__.combineReducers)({
+
+var entitiesReducer = (0,redux__WEBPACK_IMPORTED_MODULE_3__.combineReducers)({
   users: _users_reducer__WEBPACK_IMPORTED_MODULE_0__["default"],
-  wines: _wines_reducer__WEBPACK_IMPORTED_MODULE_1__["default"]
+  wines: _wines_reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
+  ratings: _ratings_reducer__WEBPACK_IMPORTED_MODULE_2__["default"]
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (entitiesReducer);
 
@@ -1052,6 +1420,50 @@ var errorsReducer = (0,redux__WEBPACK_IMPORTED_MODULE_2__.combineReducers)({
   wine: _wine_errors_reducer__WEBPACK_IMPORTED_MODULE_1__["default"]
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (errorsReducer);
+
+/***/ }),
+
+/***/ "./frontend/reducers/ratings_reducer.js":
+/*!**********************************************!*\
+  !*** ./frontend/reducers/ratings_reducer.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _actions_rating_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/rating_actions */ "./frontend/actions/rating_actions.js");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+var ratingsReducer = function ratingsReducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(state);
+
+  switch (action.type) {
+    case _actions_rating_actions__WEBPACK_IMPORTED_MODULE_0__.RECEIVE_RATINGS:
+      return action.ratings;
+
+    case _actions_rating_actions__WEBPACK_IMPORTED_MODULE_0__.RECEIVE_RATING:
+      return Object.assign({}, state, _defineProperty({}, action.rating.id, action.rating));
+
+    case _actions_rating_actions__WEBPACK_IMPORTED_MODULE_0__.DELETE_RATING:
+      var newRatingsState = Object.assign({}, state);
+      delete newRatingsState[action.ratingId];
+      return newRatingsState;
+
+    default:
+      return state;
+  }
+
+  ;
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ratingsReducer);
 
 /***/ }),
 
@@ -1298,6 +1710,45 @@ var configureStore = function configureStore() {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (configureStore);
+
+/***/ }),
+
+/***/ "./frontend/util/rating_api_util.js":
+/*!******************************************!*\
+  !*** ./frontend/util/rating_api_util.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "createRating": () => (/* binding */ createRating),
+/* harmony export */   "fetchRatings": () => (/* binding */ fetchRatings),
+/* harmony export */   "destroyRating": () => (/* binding */ destroyRating)
+/* harmony export */ });
+/* harmony import */ var _wine_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./wine_api_util */ "./frontend/util/wine_api_util.js");
+
+var createRating = function createRating(rating) {
+  return $.ajax({
+    method: 'POST',
+    url: "api/wines/".concat(rating.wine_id, "/ratings"),
+    data: rating,
+    processData: false,
+    contentType: false
+  });
+};
+var fetchRatings = function fetchRatings(wineId) {
+  return $.ajax({
+    method: 'GET',
+    url: "api/wines/".concat(wineId, "/ratings")
+  });
+};
+var destroyRating = function destroyRating(ratingId) {
+  return $.ajax({
+    method: 'DELETE',
+    url: "api/ratings/".concat(ratingId)
+  });
+};
 
 /***/ }),
 

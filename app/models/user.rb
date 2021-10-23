@@ -7,6 +7,9 @@ class User < ApplicationRecord
 
     after_initialize :ensure_session_token
 
+    has_many :wines
+    has_many :ratings, dependent: :destroy
+
     def self.find_by_credentials(username, password)
         user = User.find_by(username: username)
         return nil unless user

@@ -5,4 +5,6 @@ class Wine < ApplicationRecord
     validates :variety, uniqueness: {:scope => [:brand, :location, :vintage_year]}
 
     belongs_to :user
+
+    has_many :ratings, dependent: :destroy
 end
