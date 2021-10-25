@@ -2,11 +2,14 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const WineListItem = ({wine}) => (
-    <Link to={`/wines/${wine.id}`} >
-        <li className="wine-list-item">
+    <li className="wine-list-item">
+        <Link to={`/wines/${wine.id}`} >
             {wine.brand}
-        </li>
-    </Link>
+        </Link>
+        <div className="wine-list-item-avg-rating">
+            Average rating: {wine.avgRating}
+        </div>
+    </li>
 );
 
 export default WineListItem;

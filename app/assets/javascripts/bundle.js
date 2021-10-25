@@ -1221,11 +1221,13 @@ __webpack_require__.r(__webpack_exports__);
 
 var WineListItem = function WineListItem(_ref) {
   var wine = _ref.wine;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Link, {
-    to: "/wines/".concat(wine.id)
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
     className: "wine-list-item"
-  }, wine.brand));
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Link, {
+    to: "/wines/".concat(wine.id)
+  }, wine.brand), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "wine-list-item-avg-rating"
+  }, "Average rating: ", wine.avgRating));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (WineListItem);
