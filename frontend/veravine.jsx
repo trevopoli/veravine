@@ -3,6 +3,8 @@ import ReactDOM from "react-dom";
 import Root from "./components/root";
 import { login, logout, signup } from "./actions/session_actions";
 import configureStore from "./store/store";
+import { deleteFavorite, createFavorite } from "./actions/favorite_actions";
+
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -26,6 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
     window.login = login;
     window.logout = logout;
     window.signup = signup;
+    window.deleteFavorite = deleteFavorite;
+    window.createFavorite = createFavorite;
     //
 
     const root = document.getElementById("root");

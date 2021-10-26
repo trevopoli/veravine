@@ -1,4 +1,5 @@
 class Api::RatingsController < ApplicationController
+    before_action :require_logged_in, only: [:create, :destroy]
 
     def index
         @ratings = Rating.where(wine_id: params[:wine_id])

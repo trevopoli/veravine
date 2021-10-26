@@ -26,6 +26,9 @@ class WineShow extends React.Component {
                 <div className="wine-show-container">
                     <h3>{this.wine.brand}</h3>
                     <h4>{this.wine.variety}</h4>
+                    <div className="wine-show-avg-rating">
+                        Average rating: {this.wine.avgRating}
+                    </div>
 
                     {/* Check logged_in? then show message if not*/}
                     <div className="rating-form-with-title">

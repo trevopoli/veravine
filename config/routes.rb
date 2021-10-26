@@ -10,6 +10,8 @@ Rails.application.routes.draw do
       resources :ratings, only: [:index, :create]
     end
     resources :ratings, only: [:destroy]
+    resources :favorites, only: [:create]
+    delete '/favorites/', to: 'favorites#destroy'
   end
   
 end

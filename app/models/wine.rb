@@ -7,6 +7,7 @@ class Wine < ApplicationRecord
     belongs_to :user
 
     has_many :ratings, dependent: :destroy
+    has_many :favorites, dependent: :destroy
 
     def avg_rating
         if self.ratings.size > 0 
@@ -14,6 +15,15 @@ class Wine < ApplicationRecord
             ratingValues.sum / ratingValues.size
         else
             nil
+        end
+    end
+
+    # maybe don't query again for user, have controller tell the user instance
+    def favorited?
+        if Current.user
+            Current.user.favorites.where(wine_id: self.id).length > 0
+        else
+            false
         end
     end
 end

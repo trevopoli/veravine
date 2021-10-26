@@ -1,4 +1,3 @@
-import { fetchWine } from "./wine_api_util"
 
 export const createRating = rating => (
     $.ajax({

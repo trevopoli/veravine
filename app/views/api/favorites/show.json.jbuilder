@@ -1,0 +1,1 @@
+json.extract! @favorite, :id, :wine_id, :user_id

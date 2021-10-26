@@ -9,6 +9,7 @@ class User < ApplicationRecord
 
     has_many :wines
     has_many :ratings, dependent: :destroy
+    has_many :favorites, dependent: :destroy
 
     def self.find_by_credentials(username, password)
         user = User.find_by(username: username)

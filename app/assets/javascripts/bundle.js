@@ -1,6 +1,55 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./frontend/actions/favorite_actions.js":
+/*!**********************************************!*\
+  !*** ./frontend/actions/favorite_actions.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "REMOVE_FAVORITE": () => (/* binding */ REMOVE_FAVORITE),
+/* harmony export */   "RECEIVE_FAVORITE": () => (/* binding */ RECEIVE_FAVORITE),
+/* harmony export */   "receiveFavorite": () => (/* binding */ receiveFavorite),
+/* harmony export */   "removeFavorite": () => (/* binding */ removeFavorite),
+/* harmony export */   "deleteFavorite": () => (/* binding */ deleteFavorite),
+/* harmony export */   "createFavorite": () => (/* binding */ createFavorite)
+/* harmony export */ });
+/* harmony import */ var _util_favorite_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/favorite_api_util */ "./frontend/util/favorite_api_util.js");
+
+var REMOVE_FAVORITE = "REMOVE_FAVORITE";
+var RECEIVE_FAVORITE = "RECEIVE_FAVORITE";
+var receiveFavorite = function receiveFavorite(favorite) {
+  return {
+    type: RECEIVE_FAVORITE,
+    favorite: favorite
+  };
+};
+var removeFavorite = function removeFavorite(wineId) {
+  return {
+    type: REMOVE_FAVORITE,
+    wineId: wineId
+  };
+};
+var deleteFavorite = function deleteFavorite(wineId) {
+  return function (dispatch) {
+    return _util_favorite_api_util__WEBPACK_IMPORTED_MODULE_0__.deleteFavorite(wineId).then(function (wineId) {
+      return dispatch(removeFavorite(wineId));
+    });
+  };
+};
+var createFavorite = function createFavorite(wineId) {
+  return function (dispatch) {
+    return _util_favorite_api_util__WEBPACK_IMPORTED_MODULE_0__.createFavorite(wineId).then(function (favorite) {
+      return dispatch(receiveFavorite(favorite));
+    });
+  };
+};
+
+/***/ }),
+
 /***/ "./frontend/actions/rating_actions.js":
 /*!********************************************!*\
   !*** ./frontend/actions/rating_actions.js ***!
@@ -1305,6 +1354,8 @@ var WineShow = /*#__PURE__*/function (_React$Component) {
         rendering = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
           className: "wine-show-container"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null, this.wine.brand), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, this.wine.variety), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+          className: "wine-show-avg-rating"
+        }, "Average rating: ", this.wine.avgRating), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
           className: "rating-form-with-title"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "Rate this wine"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_rating_form_rating_form_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
           wineId: this.props.wineId
@@ -1654,8 +1705,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _actions_wine_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/wine_actions */ "./frontend/actions/wine_actions.js");
+/* harmony import */ var _actions_favorite_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/favorite_actions */ "./frontend/actions/favorite_actions.js");
+/* harmony import */ var _actions_wine_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/wine_actions */ "./frontend/actions/wine_actions.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -1665,7 +1718,7 @@ var winesReducer = function winesReducer() {
   Object.freeze(state);
 
   switch (action.type) {
-    case _actions_wine_actions__WEBPACK_IMPORTED_MODULE_0__.RECEIVE_WINES:
+    case _actions_wine_actions__WEBPACK_IMPORTED_MODULE_1__.RECEIVE_WINES:
       var winesState = {};
       var winesArray = Object.values(action.wines);
       winesArray.forEach(function (wine) {
@@ -1673,8 +1726,18 @@ var winesReducer = function winesReducer() {
       });
       return winesState;
 
-    case _actions_wine_actions__WEBPACK_IMPORTED_MODULE_0__.RECEIVE_WINE:
+    case _actions_wine_actions__WEBPACK_IMPORTED_MODULE_1__.RECEIVE_WINE:
       return Object.assign({}, state, _defineProperty({}, action.wine.id, action.wine));
+
+    case _actions_favorite_actions__WEBPACK_IMPORTED_MODULE_0__.RECEIVE_FAVORITE:
+      var favoritedState = Object.assign({}, state);
+      favoritedState[action.favorite.wine_id].favorited = true;
+      return favoritedState;
+
+    case _actions_favorite_actions__WEBPACK_IMPORTED_MODULE_0__.REMOVE_FAVORITE:
+      var unfavoritedState = Object.assign({}, state);
+      unfavoritedState[action.wineId].favorited = false;
+      return unfavoritedState;
 
     default:
       return state;
@@ -1715,6 +1778,35 @@ var configureStore = function configureStore() {
 
 /***/ }),
 
+/***/ "./frontend/util/favorite_api_util.js":
+/*!********************************************!*\
+  !*** ./frontend/util/favorite_api_util.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "createFavorite": () => (/* binding */ createFavorite),
+/* harmony export */   "deleteFavorite": () => (/* binding */ deleteFavorite)
+/* harmony export */ });
+var createFavorite = function createFavorite(wine_id) {
+  return $.ajax({
+    method: 'POST',
+    url: '/api/favorites',
+    data: wine_id
+  });
+};
+var deleteFavorite = function deleteFavorite(wine_id) {
+  return $.ajax({
+    method: 'DELETE',
+    url: '/api/favorites',
+    data: wine_id
+  });
+};
+
+/***/ }),
+
 /***/ "./frontend/util/rating_api_util.js":
 /*!******************************************!*\
   !*** ./frontend/util/rating_api_util.js ***!
@@ -1728,8 +1820,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "fetchRatings": () => (/* binding */ fetchRatings),
 /* harmony export */   "destroyRating": () => (/* binding */ destroyRating)
 /* harmony export */ });
-/* harmony import */ var _wine_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./wine_api_util */ "./frontend/util/wine_api_util.js");
-
 var createRating = function createRating(rating) {
   return $.ajax({
     method: 'POST',
@@ -38525,7 +38615,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_root__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/root */ "./frontend/components/root.jsx");
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./actions/session_actions */ "./frontend/actions/session_actions.js");
 /* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./store/store */ "./frontend/store/store.js");
+/* harmony import */ var _actions_favorite_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./actions/favorite_actions */ "./frontend/actions/favorite_actions.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -38555,7 +38647,9 @@ document.addEventListener("DOMContentLoaded", function () {
   window.dispatch = store.dispatch;
   window.login = _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__.login;
   window.logout = _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__.logout;
-  window.signup = _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__.signup; //
+  window.signup = _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__.signup;
+  window.deleteFavorite = _actions_favorite_actions__WEBPACK_IMPORTED_MODULE_5__.deleteFavorite;
+  window.createFavorite = _actions_favorite_actions__WEBPACK_IMPORTED_MODULE_5__.createFavorite; //
 
   var root = document.getElementById("root");
   react_dom__WEBPACK_IMPORTED_MODULE_1__.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_components_root__WEBPACK_IMPORTED_MODULE_2__["default"], {
