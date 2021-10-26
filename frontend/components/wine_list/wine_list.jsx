@@ -16,7 +16,12 @@ class WineList extends React.Component {
         return (
             <div className="wine-list-container">
                 <ul>
-                    {winesArray.map(wine => <WineListItem wine={wine} key={wine.id} />)}
+                    {winesArray.map(wine => <WineListItem 
+                        wine={wine} 
+                        key={wine.id}
+                        deleteFavorite={this.props.deleteFavorite}
+                        createFavorite={this.props.createFavorite}
+                     />)}
                 </ul>
                 <Link to="/wines/new">add a new wine</Link>
             </div>

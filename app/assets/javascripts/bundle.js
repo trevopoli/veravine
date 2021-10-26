@@ -1194,13 +1194,17 @@ var WineList = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this = this;
+
       var winesArray = Object.values(this.props.wines);
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
         className: "wine-list-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", null, winesArray.map(function (wine) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_wine_list_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
           wine: wine,
-          key: wine.id
+          key: wine.id,
+          deleteFavorite: _this.props.deleteFavorite,
+          createFavorite: _this.props.createFavorite
         });
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
         to: "/wines/new"
@@ -1229,6 +1233,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _wine_list__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./wine_list */ "./frontend/components/wine_list/wine_list.jsx");
 /* harmony import */ var _actions_wine_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/wine_actions */ "./frontend/actions/wine_actions.js");
+/* harmony import */ var _actions_favorite_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/favorite_actions */ "./frontend/actions/favorite_actions.js");
+
 
 
 
@@ -1244,6 +1250,12 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     fetchWines: function fetchWines(filters) {
       return dispatch((0,_actions_wine_actions__WEBPACK_IMPORTED_MODULE_2__.fetchWines)(filters));
+    },
+    createFavorite: function createFavorite(wineId) {
+      return dispatch((0,_actions_favorite_actions__WEBPACK_IMPORTED_MODULE_3__.createFavorite)(wineId));
+    },
+    deleteFavorite: function deleteFavorite(wineId) {
+      return dispatch((0,_actions_favorite_actions__WEBPACK_IMPORTED_MODULE_3__.deleteFavorite)(wineId));
     }
   };
 };
@@ -1269,12 +1281,36 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var WineListItem = function WineListItem(_ref) {
-  var wine = _ref.wine;
+  var wine = _ref.wine,
+      deleteFavorite = _ref.deleteFavorite,
+      createFavorite = _ref.createFavorite;
+  var favoriteIcon;
+
+  if (wine.favorited) {
+    favoriteIcon = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+      className: "favorited-list-icon",
+      onClick: function onClick() {
+        return deleteFavorite({
+          wine_id: wine.id
+        });
+      }
+    }, "\u2605");
+  } else {
+    favoriteIcon = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+      className: "unfavorited-list-icon",
+      onClick: function onClick() {
+        return createFavorite({
+          wine_id: wine.id
+        });
+      }
+    }, "\u2606");
+  }
+
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
     className: "wine-list-item"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Link, {
     to: "/wines/".concat(wine.id)
-  }, wine.brand), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+  }, wine.brand), favoriteIcon, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "wine-list-item-avg-rating"
   }, "Average rating: ", wine.avgRating));
 };
