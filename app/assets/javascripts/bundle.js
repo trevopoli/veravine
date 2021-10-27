@@ -1365,20 +1365,57 @@ var WineShow = /*#__PURE__*/function (_React$Component) {
   var _super = _createSuper(WineShow);
 
   function WineShow(props) {
+    var _this;
+
     _classCallCheck(this, WineShow);
 
-    return _super.call(this, props);
+    _this = _super.call(this, props);
+    _this.favorite = _this.favorite.bind(_assertThisInitialized(_this));
+    _this.unfavorite = _this.unfavorite.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(WineShow, [{
     key: "componentDidMount",
     value: function componentDidMount() {
+      var _this2 = this;
+
       if (typeof this.props.wine == 'undefined') {
-        this.props.fetchWine(this.props.wineId);
+        this.props.fetchWine(this.props.wineId).then(function (wine) {
+          return _this2.setState({
+            favorited: wine.favorited
+          });
+        });
       }
 
       ;
       this.props.fetchRatings(this.props.wineId);
+    }
+  }, {
+    key: "favorite",
+    value: function favorite() {
+      var _this3 = this;
+
+      this.props.createFavorite({
+        wine_id: this.props.wine.id
+      }).then(function () {
+        return _this3.setState({
+          favorited: true
+        });
+      });
+    }
+  }, {
+    key: "unfavorite",
+    value: function unfavorite() {
+      var _this4 = this;
+
+      this.props.deleteFavorite({
+        wine_id: this.props.wine.id
+      }).then(function () {
+        return _this4.setState({
+          favorited: false
+        });
+      });
     }
   }, {
     key: "render",
@@ -1386,10 +1423,28 @@ var WineShow = /*#__PURE__*/function (_React$Component) {
       var rendering;
 
       if (typeof this.props.wine !== 'undefined') {
-        this.wine = this.props.wine;
+        this.wine = this.props.wine; // Favorite Icon Creation
+
+        var favoriteIcon;
+
+        if (this.wine.favorited) {
+          favoriteIcon = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+            className: "favorited-show-icon",
+            onClick: this.unfavorite
+          }, "\u2605");
+        } else {
+          favoriteIcon = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("span", {
+            className: "unfavorited-show-icon",
+            onClick: this.favorite
+          }, "\u2606");
+        } //
+
+
         rendering = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
           className: "wine-show-container"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null, this.wine.brand), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, this.wine.variety), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+          className: "favorite-show-icon-container"
+        }, favoriteIcon), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
           className: "wine-show-avg-rating"
         }, "Average rating: ", this.wine.avgRating), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
           className: "rating-form-with-title"
@@ -1430,6 +1485,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wine_show__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./wine_show */ "./frontend/components/wine_show/wine_show.jsx");
 /* harmony import */ var _actions_wine_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/wine_actions */ "./frontend/actions/wine_actions.js");
 /* harmony import */ var _actions_rating_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/rating_actions */ "./frontend/actions/rating_actions.js");
+/* harmony import */ var _actions_favorite_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/favorite_actions */ "./frontend/actions/favorite_actions.js");
+
 
 
 
@@ -1451,6 +1508,12 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     fetchRatings: function fetchRatings(wineId) {
       return dispatch((0,_actions_rating_actions__WEBPACK_IMPORTED_MODULE_3__.fetchRatings)(wineId));
+    },
+    createFavorite: function createFavorite(wineId) {
+      return dispatch((0,_actions_favorite_actions__WEBPACK_IMPORTED_MODULE_4__.createFavorite)(wineId));
+    },
+    deleteFavorite: function deleteFavorite(wineId) {
+      return dispatch((0,_actions_favorite_actions__WEBPACK_IMPORTED_MODULE_4__.deleteFavorite)(wineId));
     }
   };
 };
