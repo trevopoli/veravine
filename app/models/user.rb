@@ -11,6 +11,14 @@ class User < ApplicationRecord
     has_many :ratings, dependent: :destroy
     has_many :favorites, dependent: :destroy
 
+    has_many :followers,
+        foreign_key: :followed_id,
+        class_name: 'Follow'
+
+    has_many :followings,
+        foreign_key: :follower_id,
+        class_name: 'Follow'
+
     def self.find_by_credentials(username, password)
         user = User.find_by(username: username)
         return nil unless user
@@ -30,6 +38,15 @@ class User < ApplicationRecord
         generate_session_token
         save!
         self.session_token
+    end
+
+    # logged in user follows this user?
+    def following?
+        if Current.user
+            Current.user.followings.where(followed_id: self.id).length > 0
+        else
+            false
+        end
     end
 
     private
