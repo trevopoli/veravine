@@ -7,6 +7,12 @@ class Api::RatingsController < ApplicationController
         render :index
     end
 
+    def index_by_user
+        @ratings = Rating.where(user_id: params[:user_id]).includes(:wine)
+
+        render :index
+    end
+
     def create
         @rating = Rating.new(rating_params)
 

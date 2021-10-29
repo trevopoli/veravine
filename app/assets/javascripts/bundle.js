@@ -116,7 +116,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "deleteRating": () => (/* binding */ deleteRating),
 /* harmony export */   "createRating": () => (/* binding */ createRating),
 /* harmony export */   "fetchRatings": () => (/* binding */ fetchRatings),
-/* harmony export */   "destroyRating": () => (/* binding */ destroyRating)
+/* harmony export */   "destroyRating": () => (/* binding */ destroyRating),
+/* harmony export */   "fetchRatingsByUser": () => (/* binding */ fetchRatingsByUser)
 /* harmony export */ });
 /* harmony import */ var _util_rating_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/rating_api_util */ "./frontend/util/rating_api_util.js");
 
@@ -159,6 +160,13 @@ var destroyRating = function destroyRating(ratingId) {
   return function (dispatch) {
     return _util_rating_api_util__WEBPACK_IMPORTED_MODULE_0__.destroyRating(ratingId).then(function (ratingId) {
       return dispatch(deleteRating(ratingId));
+    });
+  };
+};
+var fetchRatingsByUser = function fetchRatingsByUser(userId) {
+  return function (dispatch) {
+    return _util_rating_api_util__WEBPACK_IMPORTED_MODULE_0__.fetchRatingsByUser(userId).then(function (ratings) {
+      return dispatch(receiveRatings(ratings));
     });
   };
 };
@@ -744,7 +752,9 @@ var RatingListItem = function RatingListItem(_ref) {
   var rating = _ref.rating,
       destroyRating = _ref.destroyRating,
       userId = _ref.userId;
-  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", null, rating.wine_brand ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "rating-wine"
+  }, rating.wine_brand, ", ", rating.wine_variety) : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "rating-item-value"
   }, rating.value), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "rating-item-comment"
@@ -1030,6 +1040,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _rating_list_rating_list_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../rating_list/rating_list_container */ "./frontend/components/rating_list/rating_list_container.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1051,6 +1062,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 
 
 
@@ -1087,6 +1099,7 @@ var UserShow = /*#__PURE__*/function (_React$Component) {
       }
 
       ;
+      this.props.fetchRatingsByUser(this.props.userId);
     }
   }, {
     key: "follow",
@@ -1122,7 +1135,9 @@ var UserShow = /*#__PURE__*/function (_React$Component) {
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null, this.user.username, "'s Profile"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
           className: this.user.following ? "unfollow-button" : "follow-button",
           onClick: this.user.following ? this.unfollow : this.follow
-        }, this.user.following ? "Unfollow" : "Follow"));
+        }, this.user.following ? "Unfollow" : "Follow"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "Recent ratings by ", this.user.username), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+          className: "user-recent-rating-list"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_rating_list_rating_list_container__WEBPACK_IMPORTED_MODULE_1__["default"], null)));
       } else {
         rendering = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
           className: "user-show-null-holder"
@@ -1155,6 +1170,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/user_actions */ "./frontend/actions/user_actions.js");
 /* harmony import */ var _actions_follow_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/follow_actions */ "./frontend/actions/follow_actions.js");
+/* harmony import */ var _actions_rating_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/rating_actions */ "./frontend/actions/rating_actions.js");
+
 
 
 
@@ -1175,6 +1192,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     fetchUser: function fetchUser(userId) {
       return dispatch((0,_actions_user_actions__WEBPACK_IMPORTED_MODULE_2__.fetchUser)(userId));
+    },
+    fetchRatingsByUser: function fetchRatingsByUser(userId) {
+      return dispatch((0,_actions_rating_actions__WEBPACK_IMPORTED_MODULE_4__.fetchRatingsByUser)(userId));
     },
     createFollow: function createFollow(followedId) {
       return dispatch((0,_actions_follow_actions__WEBPACK_IMPORTED_MODULE_3__.createFollow)(followedId));
@@ -2231,7 +2251,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "createRating": () => (/* binding */ createRating),
 /* harmony export */   "fetchRatings": () => (/* binding */ fetchRatings),
-/* harmony export */   "destroyRating": () => (/* binding */ destroyRating)
+/* harmony export */   "destroyRating": () => (/* binding */ destroyRating),
+/* harmony export */   "fetchRatingsByUser": () => (/* binding */ fetchRatingsByUser)
 /* harmony export */ });
 var createRating = function createRating(rating) {
   return $.ajax({
@@ -2252,6 +2273,15 @@ var destroyRating = function destroyRating(ratingId) {
   return $.ajax({
     method: 'DELETE',
     url: "api/ratings/".concat(ratingId)
+  });
+};
+var fetchRatingsByUser = function fetchRatingsByUser(userId) {
+  return $.ajax({
+    method: 'GET',
+    url: 'api/ratings',
+    data: {
+      user_id: userId
+    }
   });
 };
 

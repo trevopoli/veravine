@@ -22,3 +22,11 @@ export const destroyRating = ratingId => (
         url: `api/ratings/${ratingId}`
     })
 )
+
+export const fetchRatingsByUser = userId => (
+    $.ajax({
+        method: 'GET',
+        url: 'api/ratings',
+        data: { user_id: userId }
+    })
+)

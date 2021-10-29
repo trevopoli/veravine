@@ -1,4 +1,5 @@
 import React from "react";
+import RatingListContainer from "../rating_list/rating_list_container"
 
 class UserShow extends React.Component {
     constructor(props){
@@ -18,6 +19,7 @@ class UserShow extends React.Component {
                 user => this.setState({ following: user.following })
             )
         };
+        this.props.fetchRatingsByUser(this.props.userId);
     }
 
     follow() {
@@ -50,7 +52,12 @@ class UserShow extends React.Component {
                         {this.user.following ? "Unfollow" : "Follow"}
                     </button>
                     {/*  */}
+                    <h4>Recent ratings by {this.user.username}</h4>
+                    <div className="user-recent-rating-list">
+                        <RatingListContainer />
+                    </div>
                 </div>
+
             )
         } else {
             rendering = <div className="user-show-null-holder"></div>

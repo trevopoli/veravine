@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     resources :ratings, only: [:destroy]
     resources :favorites, only: [:create]
     resources :follows, only: [:create]
+    get '/ratings/', to: 'ratings#index_by_user'
     delete '/follows/', to: 'follows#destroy'
     delete '/favorites/', to: 'favorites#destroy'
   end

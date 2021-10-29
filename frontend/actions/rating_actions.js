@@ -36,3 +36,9 @@ export const destroyRating = ratingId => dispatch => (
         ratingId => dispatch(deleteRating(ratingId))
     )
 );
+
+export const fetchRatingsByUser = userId => dispatch => (
+    RatingAPIUtil.fetchRatingsByUser(userId).then(
+        ratings => dispatch(receiveRatings(ratings))
+    )
+)
