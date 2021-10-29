@@ -1,12 +1,22 @@
 class Api::UsersController < ApplicationController
 
     def show
-        @user = User.find_by(id: params[:id])
+        @user = User.find(params[:id])
 
         if @user
             render :show
         else
             # 404
+        end
+    end
+
+    def update
+        @user = User.find(params[:id])
+        
+        if @user.update(about: params[:about])
+            render :show
+        else
+            render json: ["Could not update the user profile"], status: 422
         end
     end
 

@@ -1,12 +1,15 @@
 import React from "react";
-import RatingListContainer from "../rating_list/rating_list_container"
+// import { logoutCurrentUser } from "../../actions/session_actions";
+import RatingListContainer from "../rating_list/rating_list_container";
+import UserShowAbout from "./user_show_about";
 
 class UserShow extends React.Component {
     constructor(props){
         super(props)
 
         this.state = {
-            following: false
+            following: false,
+            about: ""
         }
 
         this.follow = this.follow.bind(this);
@@ -16,7 +19,7 @@ class UserShow extends React.Component {
     componentDidMount() {
         if (typeof this.props.user == 'undefined') {
             this.props.fetchUser(this.props.userId).then(
-                user => this.setState({ following: user.following })
+                user => this.setState({ following: user.following, about: user.about })
             )
         };
         this.props.fetchRatingsByUser(this.props.userId);
@@ -34,7 +37,6 @@ class UserShow extends React.Component {
         )
     }
 
-
     render() {
         this.user = this.props.user;
 
@@ -44,6 +46,11 @@ class UserShow extends React.Component {
             rendering = (
                 <div className="user-show-container">
                     <h3>{this.user.username}'s Profile</h3>
+                    <UserShowAbout 
+                        currentUserId={this.props.currentUserId} 
+                        user={this.user}
+                        updateUserAbout={this.props.updateUserAbout}
+                    />
                     {/* Follow Button */}
                     <button
                         className={this.user.following ? "unfollow-button" : "follow-button"}

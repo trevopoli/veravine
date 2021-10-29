@@ -255,7 +255,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "RECEIVE_USER": () => (/* binding */ RECEIVE_USER),
 /* harmony export */   "receiveUser": () => (/* binding */ receiveUser),
-/* harmony export */   "fetchUser": () => (/* binding */ fetchUser)
+/* harmony export */   "fetchUser": () => (/* binding */ fetchUser),
+/* harmony export */   "updateUserAbout": () => (/* binding */ updateUserAbout)
 /* harmony export */ });
 /* harmony import */ var _util_user_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/user_api_util */ "./frontend/util/user_api_util.js");
 
@@ -269,6 +270,13 @@ var receiveUser = function receiveUser(user) {
 var fetchUser = function fetchUser(userId) {
   return function (dispatch) {
     return _util_user_api_util__WEBPACK_IMPORTED_MODULE_0__.fetchUser(userId).then(function (user) {
+      return dispatch(receiveUser(user));
+    });
+  };
+};
+var updateUserAbout = function updateUserAbout(userId, about) {
+  return function (dispatch) {
+    return _util_user_api_util__WEBPACK_IMPORTED_MODULE_0__.updateUserAbout(userId, about).then(function (user) {
       return dispatch(receiveUser(user));
     });
   };
@@ -758,11 +766,11 @@ var RatingListItem = function RatingListItem(_ref) {
     className: "rating-item-value"
   }, rating.value), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "rating-item-comment"
-  }, rating.comment), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Link, {
+  }, rating.comment), rating.username ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Link, {
     to: "/users/".concat(rating.user_id)
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "rating-item-signature"
-  }, "by ", rating.username)), rating.user_id === userId ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+  }, "by ", rating.username)) : null, rating.user_id === userId ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
     onClick: function onClick() {
       return destroyRating(rating.id);
     }
@@ -1041,6 +1049,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var _rating_list_rating_list_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../rating_list/rating_list_container */ "./frontend/components/rating_list/rating_list_container.js");
+/* harmony import */ var _user_show_about__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./user_show_about */ "./frontend/components/user_show/user_show_about.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1063,6 +1072,8 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+ // import { logoutCurrentUser } from "../../actions/session_actions";
+
 
 
 
@@ -1078,7 +1089,8 @@ var UserShow = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this, props);
     _this.state = {
-      following: false
+      following: false,
+      about: ""
     };
     _this.follow = _this.follow.bind(_assertThisInitialized(_this));
     _this.unfollow = _this.unfollow.bind(_assertThisInitialized(_this));
@@ -1093,7 +1105,8 @@ var UserShow = /*#__PURE__*/function (_React$Component) {
       if (typeof this.props.user == 'undefined') {
         this.props.fetchUser(this.props.userId).then(function (user) {
           return _this2.setState({
-            following: user.following
+            following: user.following,
+            about: user.about
           });
         });
       }
@@ -1132,7 +1145,11 @@ var UserShow = /*#__PURE__*/function (_React$Component) {
       if (typeof this.user !== 'undefined') {
         rendering = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
           className: "user-show-container"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null, this.user.username, "'s Profile"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null, this.user.username, "'s Profile"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_user_show_about__WEBPACK_IMPORTED_MODULE_2__["default"], {
+          currentUserId: this.props.currentUserId,
+          user: this.user,
+          updateUserAbout: this.props.updateUserAbout
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
           className: this.user.following ? "unfollow-button" : "follow-button",
           onClick: this.user.following ? this.unfollow : this.follow
         }, this.user.following ? "Unfollow" : "Follow"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "Recent ratings by ", this.user.username), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -1152,6 +1169,130 @@ var UserShow = /*#__PURE__*/function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0__.Component);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (UserShow);
+
+/***/ }),
+
+/***/ "./frontend/components/user_show/user_show_about.jsx":
+/*!***********************************************************!*\
+  !*** ./frontend/components/user_show/user_show_about.jsx ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+var UserShowAbout = /*#__PURE__*/function (_React$Component) {
+  _inherits(UserShowAbout, _React$Component);
+
+  var _super = _createSuper(UserShowAbout);
+
+  function UserShowAbout(props) {
+    var _this;
+
+    _classCallCheck(this, UserShowAbout);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      editing: false,
+      about: _this.props.user.about
+    };
+    _this.updateUserAbout = _this.updateUserAbout.bind(_assertThisInitialized(_this));
+    _this.toggleEdit = _this.toggleEdit.bind(_assertThisInitialized(_this));
+    _this.aboutChange = _this.aboutChange.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(UserShowAbout, [{
+    key: "updateUserAbout",
+    value: function updateUserAbout() {
+      this.props.updateUserAbout(this.props.user.id, this.state.about).then(this.setState({
+        editing: false
+      }));
+    }
+  }, {
+    key: "toggleEdit",
+    value: function toggleEdit() {
+      if (this.state.editing) {
+        this.setState({
+          editing: false,
+          about: this.props.user.about
+        });
+      } else {
+        this.setState({
+          editing: true
+        });
+      }
+    }
+  }, {
+    key: "aboutChange",
+    value: function aboutChange(e) {
+      this.setState({
+        about: e.target.value
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var isCurrrentUser = this.props.user.id == this.props.currentUserId;
+      var editButton = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+        className: "edit-about-toggle",
+        onClick: this.toggleEdit
+      }, this.state.editing ? "Cancel" : "Edit");
+      var rendering;
+
+      if (isCurrrentUser) {
+        if (this.state.editing) {
+          rendering = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("textarea", {
+            onChange: this.aboutChange,
+            value: this.state.about
+          }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+            className: "edit-about-toggle",
+            onClick: this.updateUserAbout
+          }, "Submit"), editButton);
+        } else {
+          rendering = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, this.props.user.about, editButton);
+        }
+      } else {
+        rendering = this.props.user.about;
+      }
+
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        className: "user-show-about"
+      }, rendering);
+    }
+  }]);
+
+  return UserShowAbout;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (UserShowAbout);
 
 /***/ }),
 
@@ -1184,7 +1325,7 @@ var mapStateToProps = function mapStateToProps(_ref, _ref2) {
   return {
     userId: match.params.userId,
     user: users[match.params.userId],
-    currentUser: users[session.id]
+    currentUserId: session.id
   };
 };
 
@@ -1201,6 +1342,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     deleteFollow: function deleteFollow(followedId) {
       return dispatch((0,_actions_follow_actions__WEBPACK_IMPORTED_MODULE_3__.deleteFollow)(followedId));
+    },
+    updateUserAbout: function updateUserAbout(userId, about) {
+      return dispatch((0,_actions_user_actions__WEBPACK_IMPORTED_MODULE_2__.updateUserAbout)(userId, about));
     }
   };
 };
@@ -2394,12 +2538,22 @@ var logout = function logout() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "fetchUser": () => (/* binding */ fetchUser)
+/* harmony export */   "fetchUser": () => (/* binding */ fetchUser),
+/* harmony export */   "updateUserAbout": () => (/* binding */ updateUserAbout)
 /* harmony export */ });
 var fetchUser = function fetchUser(userId) {
   return $.ajax({
     method: 'GET',
     url: "/api/users/".concat(userId)
+  });
+};
+var updateUserAbout = function updateUserAbout(userId, about) {
+  return $.ajax({
+    method: 'PATCH',
+    url: "/api/users/".concat(userId),
+    data: {
+      about: about
+    }
   });
 };
 
