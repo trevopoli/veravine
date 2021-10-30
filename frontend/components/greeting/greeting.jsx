@@ -7,14 +7,16 @@ const Greeting = (props) => {
 
     if (props.currentUser) {
         greetingContent = (
-            <div>
-                <h3>Welcome, {props.currentUser.username}</h3>
+            <div className="greeting">
+                <div className="user-greeting">
+                    Welcome, {props.currentUser.username}
+                </div>
                 <button onClick={props.logout}>Logout</button>
             </div>
         )
     } else {
         greetingContent = (
-            <div>
+            <div className="greeting">
                 <Link to="/login">Log In</Link>
                 <Link to="/signup">Sign Up</Link>
             </div>
@@ -22,7 +24,7 @@ const Greeting = (props) => {
     }
 
     return (
-        <div className="greeting">
+        <div>
             {greetingContent}
         </div>
     );
