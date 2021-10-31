@@ -2,9 +2,22 @@ class Api::WinesController < ApplicationController
     before_action :require_logged_in, only: [:create]
 
     def index
-        @wines = Wine.all
+        if params[:filters]
+            # @wines = Wine.where("brand like ?", "%#{params[:filters][:brand_search]}%"))
+        else
+            @wines = Wine.all
+        end
 
         render :index
+    end
+
+    def brand_search
+        @wines = Wine.where("UPPER(brand) like UPPER(?)", "%#{params[:brand_search]}%")
+        results = []
+        @wines.each do |wine|
+            results.push(wine.brand) unless results.include?(wine.brand)
+        end
+        render json: results.to_json
     end
 
     def show

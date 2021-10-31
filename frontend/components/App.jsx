@@ -9,6 +9,7 @@ import UserShowContainer from  "./user_show/user_show_container";
 import { Route } from "react-router";
 import { Switch, Link } from "react-router-dom";
 import { AuthRoute, ProtectedRoute } from "../util/route_util";
+import WineSearchContainer from "./wine_search/wine_search_container";
 
 const App = () => (
     <div>
@@ -26,6 +27,7 @@ const App = () => (
             <AuthRoute path="/signup" component={SignupFormContainer} />
             <Switch>
                 <ProtectedRoute exact path="/wines/new" component={WineFormContainer} />
+                <Route exact path="/search" component={WineSearchContainer} />
                 <Route exact path="/wines/:wineId" component={WineShowContainer} />
                 <Route exact path="/users/:userId" component={UserShowContainer} />
                 <Route exact path="/" component={WineListContainer} />
