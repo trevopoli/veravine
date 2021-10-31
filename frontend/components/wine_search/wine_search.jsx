@@ -17,11 +17,18 @@ class WineSearch extends React.Component {
             searchText: e.target.value
         })
         // setState async
-        this.props.getBrandSearchResults(e.target.value)
+        if (e.target.value.length > 0) {
+            this.props.getBrandSearchResults(e.target.value)
+        } else {
+            this.props.clearSearchResults();
+        }
     };
 
     handleBrandClick(e) {
-
+        this.setState({
+            searchText: e.target.innerText
+        })
+        this.props.clearSearchResults();
     }
 
     render() {
@@ -36,7 +43,11 @@ class WineSearch extends React.Component {
                 </input>
                 <ul className="wine-brand-autocomplete">
                     {
-                        this.props.search.map((brand, idx) => <li onClick={this.handleBrandClick} key={idx}>{brand}</li>)
+                        this.props.search.map((brand, idx) => 
+                            <li onClick={this.handleBrandClick} 
+                                className="wine-brand-result"
+                                key={idx}>{brand}
+                            </li>)
                     }
                 </ul>
             </div>

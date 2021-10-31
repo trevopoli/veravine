@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { getBrandSearchResults } from "../../actions/search_actions";
+import { clearSearchResults, getBrandSearchResults } from "../../actions/search_actions";
 import WineSearch from './wine_search';
 
 const mapStateToProps = ({ entities: { search }}) => ({
@@ -7,7 +7,8 @@ const mapStateToProps = ({ entities: { search }}) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    getBrandSearchResults: searchText => dispatch(getBrandSearchResults(searchText))
+    getBrandSearchResults: searchText => dispatch(getBrandSearchResults(searchText)),
+    clearSearchResults: () => dispatch(clearSearchResults())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(WineSearch);

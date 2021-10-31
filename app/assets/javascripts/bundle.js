@@ -183,16 +183,24 @@ var fetchRatingsByUser = function fetchRatingsByUser(userId) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "RECEIVE_BRAND_RESULTS": () => (/* binding */ RECEIVE_BRAND_RESULTS),
+/* harmony export */   "CLEAR_SEARCH_RESULTS": () => (/* binding */ CLEAR_SEARCH_RESULTS),
 /* harmony export */   "receiveBrandResults": () => (/* binding */ receiveBrandResults),
+/* harmony export */   "clearSearchResults": () => (/* binding */ clearSearchResults),
 /* harmony export */   "getBrandSearchResults": () => (/* binding */ getBrandSearchResults)
 /* harmony export */ });
 /* harmony import */ var _util_search_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/search_api_util */ "./frontend/util/search_api_util.js");
 
 var RECEIVE_BRAND_RESULTS = "RECEIVE_BRAND_RESULTS";
+var CLEAR_SEARCH_RESULTS = "CLEAR_SEARCH_RESULTS";
 var receiveBrandResults = function receiveBrandResults(brandResults) {
   return {
     type: RECEIVE_BRAND_RESULTS,
     brandResults: brandResults
+  };
+};
+var clearSearchResults = function clearSearchResults() {
+  return {
+    type: CLEAR_SEARCH_RESULTS
   };
 };
 var getBrandSearchResults = function getBrandSearchResults(brandSearch) {
@@ -1855,11 +1863,20 @@ var WineSearch = /*#__PURE__*/function (_React$Component) {
         searchText: e.target.value
       }); // setState async
 
-      this.props.getBrandSearchResults(e.target.value);
+      if (e.target.value.length > 0) {
+        this.props.getBrandSearchResults(e.target.value);
+      } else {
+        this.props.clearSearchResults();
+      }
     }
   }, {
     key: "handleBrandClick",
-    value: function handleBrandClick(e) {}
+    value: function handleBrandClick(e) {
+      this.setState({
+        searchText: e.target.innerText
+      });
+      this.props.clearSearchResults();
+    }
   }, {
     key: "render",
     value: function render() {
@@ -1877,6 +1894,7 @@ var WineSearch = /*#__PURE__*/function (_React$Component) {
       }, this.props.search.map(function (brand, idx) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
           onClick: _this2.handleBrandClick,
+          className: "wine-brand-result",
           key: idx
         }, brand);
       })));
@@ -1919,6 +1937,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     getBrandSearchResults: function getBrandSearchResults(searchText) {
       return dispatch((0,_actions_search_actions__WEBPACK_IMPORTED_MODULE_1__.getBrandSearchResults)(searchText));
+    },
+    clearSearchResults: function clearSearchResults() {
+      return dispatch((0,_actions_search_actions__WEBPACK_IMPORTED_MODULE_1__.clearSearchResults)());
     }
   };
 };
@@ -2285,6 +2306,9 @@ var searchReducer = function searchReducer() {
   switch (action.type) {
     case _actions_search_actions__WEBPACK_IMPORTED_MODULE_0__.RECEIVE_BRAND_RESULTS:
       return action.brandResults;
+
+    case _actions_search_actions__WEBPACK_IMPORTED_MODULE_0__.CLEAR_SEARCH_RESULTS:
+      return [];
 
     default:
       return state;
