@@ -2,13 +2,13 @@ class Api::RatingsController < ApplicationController
     before_action :require_logged_in, only: [:create, :destroy]
 
     def index
-        @ratings = Rating.where(wine_id: params[:wine_id]).includes(:user)
+        @ratings = Rating.where(wine_id: params[:wine_id]).includes(:user).order("created_at DESC")
 
         render :index
     end
 
     def index_by_user
-        @ratings = Rating.where(user_id: params[:user_id]).includes(:wine)
+        @ratings = Rating.where(user_id: params[:user_id]).includes(:wine).order("created_at DESC")
 
         render :user_index
     end

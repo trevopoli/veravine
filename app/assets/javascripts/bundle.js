@@ -414,7 +414,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _util_route_util__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../util/route_util */ "./frontend/util/route_util.js");
-/* harmony import */ var _wine_search_wine_search_container__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./wine_search/wine_search_container */ "./frontend/components/wine_search/wine_search_container.js");
+/* harmony import */ var _wine_search_wine_search_form_container__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./wine_search/wine_search_form_container */ "./frontend/components/wine_search/wine_search_form_container.js");
 
 
 
@@ -448,7 +448,7 @@ var App = function App() {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
     exact: true,
     path: "/search",
-    component: _wine_search_wine_search_container__WEBPACK_IMPORTED_MODULE_9__["default"]
+    component: _wine_search_wine_search_form_container__WEBPACK_IMPORTED_MODULE_9__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
     exact: true,
     path: "/wines/:wineId",
@@ -1801,10 +1801,10 @@ var WineListItem = function WineListItem(_ref) {
 
 /***/ }),
 
-/***/ "./frontend/components/wine_search/wine_search.jsx":
-/*!*********************************************************!*\
-  !*** ./frontend/components/wine_search/wine_search.jsx ***!
-  \*********************************************************/
+/***/ "./frontend/components/wine_search/wine_search_form.jsx":
+/*!**************************************************************!*\
+  !*** ./frontend/components/wine_search/wine_search_form.jsx ***!
+  \**************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1814,6 +1814,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1837,26 +1839,34 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-var WineSearch = /*#__PURE__*/function (_React$Component) {
-  _inherits(WineSearch, _React$Component);
+var WineSearchForm = /*#__PURE__*/function (_React$Component) {
+  _inherits(WineSearchForm, _React$Component);
 
-  var _super = _createSuper(WineSearch);
+  var _super = _createSuper(WineSearchForm);
 
-  function WineSearch(props) {
+  function WineSearchForm(props) {
     var _this;
 
-    _classCallCheck(this, WineSearch);
+    _classCallCheck(this, WineSearchForm);
 
     _this = _super.call(this, props);
     _this.state = {
-      searchText: ""
+      searchText: "",
+      category: "",
+      variety: "",
+      location: "",
+      vintage: "",
+      minRating: 1,
+      followingOnly: false
     };
+    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
+    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.handleSearchChange = _this.handleSearchChange.bind(_assertThisInitialized(_this));
     _this.handleBrandClick = _this.handleBrandClick.bind(_assertThisInitialized(_this));
     return _this;
   }
 
-  _createClass(WineSearch, [{
+  _createClass(WineSearchForm, [{
     key: "handleSearchChange",
     value: function handleSearchChange(e) {
       this.setState({
@@ -1878,40 +1888,139 @@ var WineSearch = /*#__PURE__*/function (_React$Component) {
       this.props.clearSearchResults();
     }
   }, {
-    key: "render",
-    value: function render() {
+    key: "handleChange",
+    value: function handleChange(field) {
       var _this2 = this;
 
+      return function (e) {
+        if (field === "followingOnly") {
+          _this2.setState(_defineProperty({}, field, !_this2.state.followingOnly));
+        } else {
+          _this2.setState(_defineProperty({}, field, e.target.value));
+        }
+      };
+    }
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit(e) {
+      e.preventDefault(); // const searchFormData = new FormData();
+      // searchFormData.append('filters[brand]', this.state.searchText);
+      // searchFormData.append('filters[category]', this.state.category);
+      // searchFormData.append('filters[variety]', this.state.variety);
+      // searchFormData.append('filters[location]', this.state.location);
+      // searchFormData.append('filters[vintage]', this.state.vintage);
+      // searchFormData.append('filters[min_rating]', this.state.minRating);
+      // searchFormData.append('filters[following_only]', this.state.followingOnly);
+
+      var filterParams = {
+        filters: {
+          brand: this.state.searchText,
+          category: this.state.category,
+          variety: this.state.variety,
+          location: this.state.location,
+          vintage: this.state.vintage,
+          min_rating: this.state.minRating,
+          following_only: this.state.followingOnly
+        }
+      };
+      this.props.fetchWines(filterParams);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this3 = this;
+
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-        className: "wine-search-container"
+        className: "wine-search-form-container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        className: "wine-search-brand-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
         value: this.state.searchText,
-        className: "wine-search-input",
+        className: "wine-search-brand-input",
         placeholder: "Search wine brands",
         onChange: this.handleSearchChange
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("ul", {
         className: "wine-brand-autocomplete"
       }, this.props.search.map(function (brand, idx) {
         return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-          onClick: _this2.handleBrandClick,
+          onClick: _this3.handleBrandClick,
           className: "wine-brand-result",
           key: idx
         }, brand);
+      }))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", {
+        className: "wine-search-form",
+        onSubmit: this.handleSubmit
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
+        className: "wine-search-category"
+      }, "Category "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("select", {
+        size: "7",
+        value: this.state.category,
+        onChange: this.handleChange('category'),
+        className: "wine-search-category"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
+        value: ""
+      }, "All"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
+        value: "Red"
+      }, "Red"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
+        value: "White"
+      }, "White"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
+        value: "Rose"
+      }, "Ros\xE9"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
+        value: "Sparkling"
+      }, "Sparkling"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
+        value: "Dessert"
+      }, "Dessert"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("option", {
+        value: "Fortified"
+      }, "Fortified")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
+        className: "wine-search-variety"
+      }, "Variety "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+        type: "text",
+        value: this.state.variety,
+        onChange: this.handleChange('variety'),
+        className: "wine-search-variety"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
+        className: "wine-search-vintage"
+      }, "Vintage "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+        type: "number",
+        min: "1773",
+        value: this.state.vintage,
+        onChange: this.handleChange('vintage'),
+        className: "wine-search-vintage"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
+        className: "wine-search-min-rating"
+      }, "Minimum Rating"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+        type: "range",
+        min: "1",
+        max: "10",
+        step: "0.1",
+        value: this.state.minRating,
+        onChange: this.handleChange('minRating'),
+        className: "wine-search-min-rating"
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
+        className: "wine-search-following-only"
+      }, "Only show ratings from people your following "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+        type: "checkbox",
+        onChange: this.handleChange('followingOnly'),
+        checked: this.state.followingOnly
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+        type: "submit",
+        value: "Search",
+        className: "wine-search-submit"
       })));
     }
   }]);
 
-  return WineSearch;
+  return WineSearchForm;
 }(react__WEBPACK_IMPORTED_MODULE_0__.Component);
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (WineSearch);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (WineSearchForm);
 
 /***/ }),
 
-/***/ "./frontend/components/wine_search/wine_search_container.js":
-/*!******************************************************************!*\
-  !*** ./frontend/components/wine_search/wine_search_container.js ***!
-  \******************************************************************/
+/***/ "./frontend/components/wine_search/wine_search_form_container.js":
+/*!***********************************************************************!*\
+  !*** ./frontend/components/wine_search/wine_search_form_container.js ***!
+  \***********************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1921,7 +2030,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _actions_search_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/search_actions */ "./frontend/actions/search_actions.js");
-/* harmony import */ var _wine_search__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./wine_search */ "./frontend/components/wine_search/wine_search.jsx");
+/* harmony import */ var _actions_wine_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/wine_actions */ "./frontend/actions/wine_actions.js");
+/* harmony import */ var _wine_search_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./wine_search_form */ "./frontend/components/wine_search/wine_search_form.jsx");
+
 
 
 
@@ -1940,11 +2051,14 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     clearSearchResults: function clearSearchResults() {
       return dispatch((0,_actions_search_actions__WEBPACK_IMPORTED_MODULE_1__.clearSearchResults)());
+    },
+    fetchWines: function fetchWines(filters) {
+      return dispatch((0,_actions_wine_actions__WEBPACK_IMPORTED_MODULE_2__.fetchWines)(filters));
     }
   };
 };
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_0__.connect)(mapStateToProps, mapDispatchToProps)(_wine_search__WEBPACK_IMPORTED_MODULE_2__["default"]));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_0__.connect)(mapStateToProps, mapDispatchToProps)(_wine_search_form__WEBPACK_IMPORTED_MODULE_3__["default"]));
 
 /***/ }),
 

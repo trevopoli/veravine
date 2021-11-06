@@ -3,7 +3,7 @@ class Api::WinesController < ApplicationController
 
     def index
         if params[:filters]
-            # @wines = Wine.where("brand like ?", "%#{params[:filters][:brand_search]}%"))
+            @wines = Wine.search_with_filters(params[:filters])
         else
             @wines = Wine.all
         end
@@ -12,12 +12,9 @@ class Api::WinesController < ApplicationController
     end
 
     def brand_search
-        @wines = Wine.where("UPPER(brand) like UPPER(?)", "%#{params[:brand_search]}%")
-        results = []
-        @wines.each do |wine|
-            results.push(wine.brand) unless results.include?(wine.brand)
-        end
-        render json: results.to_json
+        wine_brands = Wine.brands_like(params[:brand_search])
+        
+        render json: wine_brands.to_json
     end
 
     def show
