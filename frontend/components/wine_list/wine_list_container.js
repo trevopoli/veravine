@@ -8,7 +8,7 @@ const mapStateToProps = ({ entities: { wines } }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    fetchWines: (filters) => dispatch(fetchWines(filters)),
+    // fetchWines: (filters) => dispatch(fetchWines(filters)),
     createFavorite: wineId => dispatch(createFavorite(wineId)),
     deleteFavorite: wineId => dispatch(deleteFavorite(wineId))
 });

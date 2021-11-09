@@ -18,6 +18,7 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
     list-style: none;
+    font-family: 'Raleway', sans-serif;
 }
 
 a {

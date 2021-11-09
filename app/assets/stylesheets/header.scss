@@ -7,8 +7,16 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 50px;
+    height: 60px;
     // margin: 0 50px 0 50px;
+
+    h1 {
+        font-size: 30px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        font-style: italic;
+        color:  #a12125;
+    }
 
     .greeting {
         display: flex;

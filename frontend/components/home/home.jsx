@@ -1,0 +1,28 @@
+import React from "react";
+import WineListContainer from "../wine_list/wine_list_container";
+import SimpleSearchContainer from "../simple_search/simple_search_container";
+
+class Home extends React.Component {
+    constructor(props){
+        super(props);
+
+    }
+
+    componentDidMount() {
+        this.props.fetchWines();
+    }
+
+    render() {
+
+        return(
+            <div className="one-column">
+                <div className="home-container">
+                    <SimpleSearchContainer />
+                    <WineListContainer />
+                </div>
+            </div>
+        )
+    }
+}
+
+export default Home;

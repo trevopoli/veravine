@@ -8,7 +8,7 @@ class WineList extends React.Component {
     }
 
     componentDidMount () {
-        this.props.fetchWines();
+        // this.props.fetchWines();
     }
 
     render () {
@@ -23,7 +23,7 @@ class WineList extends React.Component {
                         createFavorite={this.props.createFavorite}
                      />)}
                 </ul>
-                <Link to="/wines/new">add a new wine</Link>
+                <Link to="/wines/new">don't see your wine? add a new wine</Link>
             </div>
         )
     }

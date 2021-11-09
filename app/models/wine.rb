@@ -1,4 +1,7 @@
 class Wine < ApplicationRecord
+    include PgSearch::Model
+    pg_search_scope :simple_search, against: {brand: 'A', variety: 'B', category: 'C', location: 'D', vintage_year: 'D'},
+        using: { tsearch: { dictionary: "english"} }
     validates :brand, :variety, :category, :location, presence: true
     validates :category, inclusion: {in: %w(Red White Rose Sparkling Dessert Fortified)}
     validates :vintage_year, inclusion: {in: 1773..Date.current.year, message: "Not a valid year"}
@@ -41,6 +44,10 @@ class Wine < ApplicationRecord
     def self.search_followed_with_filters(filters)
 
     end
+
+    # def self.simple_search(search_input)
+    #     Wine.simple_search(search_input)
+    # end
 
     def avg_rating
         if self.ratings.size > 0 

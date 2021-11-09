@@ -340,6 +340,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "receiveWine": () => (/* binding */ receiveWine),
 /* harmony export */   "receiveWineErrors": () => (/* binding */ receiveWineErrors),
 /* harmony export */   "fetchWines": () => (/* binding */ fetchWines),
+/* harmony export */   "simpleWineSearch": () => (/* binding */ simpleWineSearch),
 /* harmony export */   "createWine": () => (/* binding */ createWine),
 /* harmony export */   "fetchWine": () => (/* binding */ fetchWine)
 /* harmony export */ });
@@ -369,6 +370,13 @@ var receiveWineErrors = function receiveWineErrors(errors) {
 var fetchWines = function fetchWines(filters) {
   return function (dispatch) {
     return _util_wine_api_util__WEBPACK_IMPORTED_MODULE_0__.fetchWines(filters).then(function (wines) {
+      return dispatch(receiveWines(wines));
+    });
+  };
+};
+var simpleWineSearch = function simpleWineSearch(searchInput) {
+  return function (dispatch) {
+    return _util_wine_api_util__WEBPACK_IMPORTED_MODULE_0__.simpleWineSearch(searchInput).then(function (wines) {
       return dispatch(receiveWines(wines));
     });
   };
@@ -407,14 +415,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _greeting_greeting_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./greeting/greeting_container */ "./frontend/components/greeting/greeting_container.js");
 /* harmony import */ var _session_form_login_form_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./session_form/login_form_container */ "./frontend/components/session_form/login_form_container.js");
 /* harmony import */ var _session_form_signup_form_container__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./session_form/signup_form_container */ "./frontend/components/session_form/signup_form_container.js");
-/* harmony import */ var _wine_list_wine_list_container__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./wine_list/wine_list_container */ "./frontend/components/wine_list/wine_list_container.js");
+/* harmony import */ var _home_home_container__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./home/home_container */ "./frontend/components/home/home_container.js");
 /* harmony import */ var _wine_form_wine_form_container__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./wine_form/wine_form_container */ "./frontend/components/wine_form/wine_form_container.js");
 /* harmony import */ var _wine_show_wine_show_container__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./wine_show/wine_show_container */ "./frontend/components/wine_show/wine_show_container.js");
 /* harmony import */ var _user_show_user_show_container__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./user_show/user_show_container */ "./frontend/components/user_show/user_show_container.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/esm/react-router.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _util_route_util__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../util/route_util */ "./frontend/util/route_util.js");
-/* harmony import */ var _wine_search_wine_search_form_container__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./wine_search/wine_search_form_container */ "./frontend/components/wine_search/wine_search_form_container.js");
+/* harmony import */ var _wine_search_wine_search_container__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./wine_search/wine_search_container */ "./frontend/components/wine_search/wine_search_container.js");
 
 
 
@@ -435,7 +443,9 @@ var App = function App() {
     className: "header-wrapper"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Link, {
     to: "/"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "Veravine")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_greeting_greeting_container__WEBPACK_IMPORTED_MODULE_1__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_8__.AuthRoute, {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "Veravine")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_greeting_greeting_container__WEBPACK_IMPORTED_MODULE_1__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "grid-layout"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_8__.AuthRoute, {
     path: "/login",
     component: _session_form_login_form_container__WEBPACK_IMPORTED_MODULE_2__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_8__.AuthRoute, {
@@ -448,7 +458,7 @@ var App = function App() {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
     exact: true,
     path: "/search",
-    component: _wine_search_wine_search_form_container__WEBPACK_IMPORTED_MODULE_9__["default"]
+    component: _wine_search_wine_search_container__WEBPACK_IMPORTED_MODULE_9__["default"]
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
     exact: true,
     path: "/wines/:wineId",
@@ -460,8 +470,8 @@ var App = function App() {
   }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_11__.Route, {
     exact: true,
     path: "/",
-    component: _wine_list_wine_list_container__WEBPACK_IMPORTED_MODULE_4__["default"]
-  }))));
+    component: _home_home_container__WEBPACK_IMPORTED_MODULE_4__["default"]
+  })))));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App);
@@ -547,6 +557,120 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_0__.connect)(mapStateToProps, mapDispatchToProps)(_greeting__WEBPACK_IMPORTED_MODULE_2__["default"]));
+
+/***/ }),
+
+/***/ "./frontend/components/home/home.jsx":
+/*!*******************************************!*\
+  !*** ./frontend/components/home/home.jsx ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _wine_list_wine_list_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../wine_list/wine_list_container */ "./frontend/components/wine_list/wine_list_container.js");
+/* harmony import */ var _simple_search_simple_search_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../simple_search/simple_search_container */ "./frontend/components/simple_search/simple_search_container.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+var Home = /*#__PURE__*/function (_React$Component) {
+  _inherits(Home, _React$Component);
+
+  var _super = _createSuper(Home);
+
+  function Home(props) {
+    _classCallCheck(this, Home);
+
+    return _super.call(this, props);
+  }
+
+  _createClass(Home, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.props.fetchWines();
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        className: "one-column"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        className: "home-container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_simple_search_simple_search_container__WEBPACK_IMPORTED_MODULE_2__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_wine_list_wine_list_container__WEBPACK_IMPORTED_MODULE_1__["default"], null)));
+    }
+  }]);
+
+  return Home;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Home);
+
+/***/ }),
+
+/***/ "./frontend/components/home/home_container.js":
+/*!****************************************************!*\
+  !*** ./frontend/components/home/home_container.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _actions_wine_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/wine_actions */ "./frontend/actions/wine_actions.js");
+/* harmony import */ var _home__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./home */ "./frontend/components/home/home.jsx");
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
+
+
+
+
+var mapStateToProps = function mapStateToProps(_ref) {
+  _objectDestructuringEmpty(_ref);
+
+  return {};
+};
+
+var mapDispatchToProps = function mapDispatchToProps(_ref2) {
+  _objectDestructuringEmpty(_ref2);
+
+  return {
+    fetchWines: function fetchWines(filters) {
+      return dispatch((0,_actions_wine_actions__WEBPACK_IMPORTED_MODULE_1__.fetchWines)(filters));
+    }
+  };
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_0__.connect)(mapStateToProps, mapDispatchToProps)(_home__WEBPACK_IMPORTED_MODULE_2__["default"]));
 
 /***/ }),
 
@@ -1087,6 +1211,139 @@ var mapDispatchToProps = function mapDispatchToProps(dipatch) {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_0__.connect)(mapStateToProps, mapDispatchToProps)(_session_form__WEBPACK_IMPORTED_MODULE_2__["default"]));
+
+/***/ }),
+
+/***/ "./frontend/components/simple_search/simple_search.jsx":
+/*!*************************************************************!*\
+  !*** ./frontend/components/simple_search/simple_search.jsx ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+var SimpleSearch = /*#__PURE__*/function (_React$Component) {
+  _inherits(SimpleSearch, _React$Component);
+
+  var _super = _createSuper(SimpleSearch);
+
+  function SimpleSearch(props) {
+    var _this;
+
+    _classCallCheck(this, SimpleSearch);
+
+    _this = _super.call(this, props);
+    _this.state = {
+      searchInput: ""
+    };
+    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
+    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(SimpleSearch, [{
+    key: "handleChange",
+    value: function handleChange(e) {
+      this.setState({
+        searchInput: e.target.value
+      });
+    }
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit(e) {
+      this.props.simpleWineSearch(this.state.searchInput);
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        className: "simple-search-container"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        className: "simple-search-box"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+        type: "text",
+        className: "simple-search-input",
+        onChange: this.handleChange,
+        placeholder: "Try something like 'La Crema Chardonnay'"
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        className: "simple-search-sumbit"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+        className: "sumple-search-submit-button",
+        onClick: this.handleSubmit
+      }, "Search")));
+    }
+  }]);
+
+  return SimpleSearch;
+}(react__WEBPACK_IMPORTED_MODULE_0__.Component);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SimpleSearch);
+
+/***/ }),
+
+/***/ "./frontend/components/simple_search/simple_search_container.js":
+/*!**********************************************************************!*\
+  !*** ./frontend/components/simple_search/simple_search_container.js ***!
+  \**********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _actions_wine_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/wine_actions */ "./frontend/actions/wine_actions.js");
+/* harmony import */ var _simple_search__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./simple_search */ "./frontend/components/simple_search/simple_search.jsx");
+function _objectDestructuringEmpty(obj) { if (obj == null) throw new TypeError("Cannot destructure undefined"); }
+
+
+
+
+
+var mapStateToProps = function mapStateToProps(_ref) {
+  _objectDestructuringEmpty(_ref);
+
+  return {};
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    simpleWineSearch: function simpleWineSearch(searchInput) {
+      return dispatch((0,_actions_wine_actions__WEBPACK_IMPORTED_MODULE_1__.simpleWineSearch)(searchInput));
+    }
+  };
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_0__.connect)(mapStateToProps, mapDispatchToProps)(_simple_search__WEBPACK_IMPORTED_MODULE_2__["default"]));
 
 /***/ }),
 
@@ -1670,8 +1927,7 @@ var WineList = /*#__PURE__*/function (_React$Component) {
 
   _createClass(WineList, [{
     key: "componentDidMount",
-    value: function componentDidMount() {
-      this.props.fetchWines();
+    value: function componentDidMount() {// this.props.fetchWines();
     }
   }, {
     key: "render",
@@ -1690,7 +1946,7 @@ var WineList = /*#__PURE__*/function (_React$Component) {
         });
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
         to: "/wines/new"
-      }, "add a new wine"));
+      }, "don't see your wine? add a new wine"));
     }
   }]);
 
@@ -1730,9 +1986,7 @@ var mapStateToProps = function mapStateToProps(_ref) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
-    fetchWines: function fetchWines(filters) {
-      return dispatch((0,_actions_wine_actions__WEBPACK_IMPORTED_MODULE_2__.fetchWines)(filters));
-    },
+    // fetchWines: (filters) => dispatch(fetchWines(filters)),
     createFavorite: function createFavorite(wineId) {
       return dispatch((0,_actions_favorite_actions__WEBPACK_IMPORTED_MODULE_3__.createFavorite)(wineId));
     },
@@ -1801,10 +2055,10 @@ var WineListItem = function WineListItem(_ref) {
 
 /***/ }),
 
-/***/ "./frontend/components/wine_search/wine_search_form.jsx":
-/*!**************************************************************!*\
-  !*** ./frontend/components/wine_search/wine_search_form.jsx ***!
-  \**************************************************************/
+/***/ "./frontend/components/wine_search/wine_search.jsx":
+/*!*********************************************************!*\
+  !*** ./frontend/components/wine_search/wine_search.jsx ***!
+  \*********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1813,6 +2067,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var _wine_list_wine_list_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../wine_list/wine_list_container */ "./frontend/components/wine_list/wine_list_container.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -1839,15 +2094,16 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-var WineSearchForm = /*#__PURE__*/function (_React$Component) {
-  _inherits(WineSearchForm, _React$Component);
 
-  var _super = _createSuper(WineSearchForm);
+var WineSearch = /*#__PURE__*/function (_React$Component) {
+  _inherits(WineSearch, _React$Component);
 
-  function WineSearchForm(props) {
+  var _super = _createSuper(WineSearch);
+
+  function WineSearch(props) {
     var _this;
 
-    _classCallCheck(this, WineSearchForm);
+    _classCallCheck(this, WineSearch);
 
     _this = _super.call(this, props);
     _this.state = {
@@ -1866,7 +2122,7 @@ var WineSearchForm = /*#__PURE__*/function (_React$Component) {
     return _this;
   }
 
-  _createClass(WineSearchForm, [{
+  _createClass(WineSearch, [{
     key: "handleSearchChange",
     value: function handleSearchChange(e) {
       this.setState({
@@ -1903,15 +2159,7 @@ var WineSearchForm = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
-      e.preventDefault(); // const searchFormData = new FormData();
-      // searchFormData.append('filters[brand]', this.state.searchText);
-      // searchFormData.append('filters[category]', this.state.category);
-      // searchFormData.append('filters[variety]', this.state.variety);
-      // searchFormData.append('filters[location]', this.state.location);
-      // searchFormData.append('filters[vintage]', this.state.vintage);
-      // searchFormData.append('filters[min_rating]', this.state.minRating);
-      // searchFormData.append('filters[following_only]', this.state.followingOnly);
-
+      e.preventDefault();
       var filterParams = {
         filters: {
           brand: this.state.searchText,
@@ -1931,7 +2179,7 @@ var WineSearchForm = /*#__PURE__*/function (_React$Component) {
       var _this3 = this;
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-        className: "wine-search-form-container"
+        className: "wine-search-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
         className: "wine-search-brand-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
@@ -2006,21 +2254,23 @@ var WineSearchForm = /*#__PURE__*/function (_React$Component) {
         type: "submit",
         value: "Search",
         className: "wine-search-submit"
-      })));
+      })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        className: "search-results-header"
+      }, "Search Results"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_wine_list_wine_list_container__WEBPACK_IMPORTED_MODULE_1__["default"], null));
     }
   }]);
 
-  return WineSearchForm;
+  return WineSearch;
 }(react__WEBPACK_IMPORTED_MODULE_0__.Component);
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (WineSearchForm);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (WineSearch);
 
 /***/ }),
 
-/***/ "./frontend/components/wine_search/wine_search_form_container.js":
-/*!***********************************************************************!*\
-  !*** ./frontend/components/wine_search/wine_search_form_container.js ***!
-  \***********************************************************************/
+/***/ "./frontend/components/wine_search/wine_search_container.js":
+/*!******************************************************************!*\
+  !*** ./frontend/components/wine_search/wine_search_container.js ***!
+  \******************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2031,7 +2281,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _actions_search_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../actions/search_actions */ "./frontend/actions/search_actions.js");
 /* harmony import */ var _actions_wine_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/wine_actions */ "./frontend/actions/wine_actions.js");
-/* harmony import */ var _wine_search_form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./wine_search_form */ "./frontend/components/wine_search/wine_search_form.jsx");
+/* harmony import */ var _wine_search__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./wine_search */ "./frontend/components/wine_search/wine_search.jsx");
 
 
 
@@ -2058,7 +2308,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   };
 };
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_0__.connect)(mapStateToProps, mapDispatchToProps)(_wine_search_form__WEBPACK_IMPORTED_MODULE_3__["default"]));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,react_redux__WEBPACK_IMPORTED_MODULE_0__.connect)(mapStateToProps, mapDispatchToProps)(_wine_search__WEBPACK_IMPORTED_MODULE_3__["default"]));
 
 /***/ }),
 
@@ -2950,6 +3200,7 @@ var updateUserAbout = function updateUserAbout(userId, about) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "fetchWines": () => (/* binding */ fetchWines),
+/* harmony export */   "simpleWineSearch": () => (/* binding */ simpleWineSearch),
 /* harmony export */   "fetchWine": () => (/* binding */ fetchWine),
 /* harmony export */   "createWine": () => (/* binding */ createWine)
 /* harmony export */ });
@@ -2958,6 +3209,15 @@ var fetchWines = function fetchWines(filters) {
     method: 'GET',
     url: '/api/wines',
     data: filters
+  });
+};
+var simpleWineSearch = function simpleWineSearch(searchInput) {
+  return $.ajax({
+    method: 'GET',
+    url: '/api/simple_search',
+    data: {
+      search_input: searchInput
+    }
   });
 };
 var fetchWine = function fetchWine(wineId) {

@@ -33,6 +33,8 @@ gem 'figaro'
 
 gem 'aws-sdk-s3'
 
+gem 'pg_search'
+
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 

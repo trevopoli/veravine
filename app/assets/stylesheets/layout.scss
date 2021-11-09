@@ -1,5 +1,24 @@
 .header-wrapper {
-    margin-left: 5%;
-    margin-right: 5%;
-    width: 90%;
+    margin-left: 6%;
+    margin-right: 6%;
+    width: 88%;
+}
+
+.grid-layout {
+    display: grid;
+    grid-template-columns: 6% 11fr 1fr 7fr 6%;
+}
+.left-column {
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+
+.right-column {
+    grid-column-start: 4;
+    grid-column-end: 5;
+}
+
+.one-column {
+    grid-column-start: 2;
+    grid-column-end: 5;
 }

@@ -17,6 +17,12 @@ class Api::WinesController < ApplicationController
         render json: wine_brands.to_json
     end
 
+    def simple_search
+        @wines = Wine.simple_search(params[:search_input]).includes(:ratings)
+
+        render :index
+    end
+
     def show
         @wine = Wine.find_by(id: params[:id])
 

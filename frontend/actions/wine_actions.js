@@ -23,7 +23,13 @@ export const fetchWines = filters => dispatch => (
     WineAPIUtil.fetchWines(filters).then(
         wines => dispatch(receiveWines(wines))
     )
-);
+)
+
+export const simpleWineSearch = searchInput => dispatch => (
+    WineAPIUtil.simpleWineSearch(searchInput).then(
+        wines => dispatch(receiveWines(wines))
+    )
+)
 
 export const createWine = wine => dispatch => (
     WineAPIUtil.createWine(wine).then(
