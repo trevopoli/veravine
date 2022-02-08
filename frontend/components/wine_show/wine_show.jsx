@@ -55,8 +55,10 @@ class WineShow extends React.Component {
 
             rendering = (
                 <div className="wine-show-container">
-                    <h3>{this.wine.brand}</h3>
-                    <h4>{this.wine.variety}</h4>
+                    <div className="wine-show-title-info">
+                        <div className="wine-show-title-brand">{this.wine.brand}</div>
+                        <div className="wine-show-title-variety">{this.wine.variety}</div>
+                    </div>
                     <div className="favorite-show-icon-container">
                         {favoriteIcon}
                     </div>
@@ -66,22 +68,21 @@ class WineShow extends React.Component {
 
                     {/* Check logged_in? then show message if not*/}
                     <div className="rating-form-with-title">
-                        <h4>Rate this wine</h4>
+                        <div className="rating-form-title">Rate this wine</div>
                         <RatingFormContainer wineId={this.props.wineId} />
                     </div>
                     <div className="rating-list-with-title">
-                        <h4>Recent ratings</h4>
+                        <div className="recent-ratings-title">Recent ratings</div>
                         <RatingListContainer />
                     </div>
                 </div>
-
             )
         } else {
             rendering = <div className="null-holder"></div>
         }
 
         return (
-            <div>
+            <div className="one-column">
                 {rendering}
             </div>
         )

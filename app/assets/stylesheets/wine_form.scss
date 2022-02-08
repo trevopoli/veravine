@@ -1,0 +1,16 @@
+.wine-form-container {
+    margin: 25px;
+    padding: 15px;
+    background-color: lightgrey;
+}
+.new-wine-form-title {
+    font-weight: 600px;
+    font-size: 24px;
+}
+
+.new-wine-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: baseline;
+
+}

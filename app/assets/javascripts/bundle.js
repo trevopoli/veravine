@@ -443,7 +443,7 @@ var App = function App() {
     className: "header-wrapper"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_10__.Link, {
     to: "/"
-  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "Veravine")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_greeting_greeting_container__WEBPACK_IMPORTED_MODULE_1__["default"], null))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h1", null, "Veravine")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_greeting_greeting_container__WEBPACK_IMPORTED_MODULE_1__["default"], null)))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "grid-layout"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_8__.AuthRoute, {
     path: "/login",
@@ -471,7 +471,7 @@ var App = function App() {
     exact: true,
     path: "/",
     component: _home_home_container__WEBPACK_IMPORTED_MODULE_4__["default"]
-  })))));
+  }))));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App);
@@ -871,7 +871,7 @@ var RatingList = function RatingList(_ref) {
   }
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "rating-list-container"
+    className: "ratings-list-container"
   }, ratingsList);
 };
 
@@ -944,11 +944,13 @@ var RatingListItem = function RatingListItem(_ref) {
     className: "rating-item-value"
   }, rating.value), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "rating-item-comment"
-  }, rating.comment), rating.username ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Link, {
+  }, rating.comment), rating.username ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "rating-item-signature"
+  }, "by\xA0", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Link, {
     to: "/users/".concat(rating.user_id)
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
-    className: "rating-item-signature"
-  }, "by ", rating.username)) : null, rating.user_id === userId ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+    className: "rating-item-user-link"
+  }, rating.username))) : null, rating.user_id === userId ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
     onClick: function onClick() {
       return destroyRating(rating.id);
     }
@@ -1279,11 +1281,15 @@ var SimpleSearch = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
-      this.props.simpleWineSearch(this.state.searchInput);
+      if (this.state.searchInput.length > 0) {
+        this.props.simpleWineSearch(this.state.searchInput);
+      }
     }
   }, {
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
         className: "simple-search-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
@@ -1292,11 +1298,14 @@ var SimpleSearch = /*#__PURE__*/function (_React$Component) {
         type: "text",
         className: "simple-search-input",
         onChange: this.handleChange,
-        placeholder: "Try something like 'La Crema Chardonnay'"
+        placeholder: "Try something like 'La Crema Chardonnay'",
+        onKeyUp: function onKeyUp(e) {
+          return e.key == 'Enter' ? _this2.handleSubmit(e) : null;
+        }
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
         className: "simple-search-sumbit"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-        className: "sumple-search-submit-button",
+        className: "simple-search-submit-button",
         onClick: this.handleSubmit
       }, "Search")));
     }
@@ -1766,8 +1775,10 @@ var WineForm = /*#__PURE__*/function (_React$Component) {
       }
 
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        className: "one-column"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
         className: "wine-form-container"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
         className: "new-wine-form-title"
       }, "Add a new wine"), errorList, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("form", {
         className: "new-wine-form",
@@ -1824,7 +1835,7 @@ var WineForm = /*#__PURE__*/function (_React$Component) {
         type: "submit",
         value: "Add Wine",
         className: "new-wine-submit"
-      })));
+      }))));
     }
   }]);
 
@@ -1945,7 +1956,8 @@ var WineList = /*#__PURE__*/function (_React$Component) {
           createFavorite: _this.props.createFavorite
         });
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__.Link, {
-        to: "/wines/new"
+        to: "/wines/new",
+        className: "list-add-wine-footer"
       }, "don't see your wine? add a new wine"));
     }
   }]);
@@ -2043,12 +2055,16 @@ var WineListItem = function WineListItem(_ref) {
   }
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("li", {
-    className: "wine-list-item"
+    className: "list-item-".concat(wine.category)
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__.Link, {
     to: "/wines/".concat(wine.id)
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "wine-list-item"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+    className: "wine-list-item-brand"
   }, wine.brand), favoriteIcon, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
     className: "wine-list-item-avg-rating"
-  }, "Average rating: ", wine.avgRating));
+  }, "Average rating: ", wine.avgRating))));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (WineListItem);
@@ -2435,24 +2451,36 @@ var WineShow = /*#__PURE__*/function (_React$Component) {
 
         rendering = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
           className: "wine-show-container"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null, this.wine.brand), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, this.wine.variety), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+          className: "wine-show-title-info"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+          className: "wine-show-title-brand"
+        }, this.wine.brand), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+          className: "wine-show-title-variety"
+        }, this.wine.variety)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
           className: "favorite-show-icon-container"
         }, favoriteIcon), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
           className: "wine-show-avg-rating"
         }, "Average rating: ", this.wine.avgRating), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
           className: "rating-form-with-title"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "Rate this wine"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_rating_form_rating_form_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+          className: "rating-form-title"
+        }, "Rate this wine"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_rating_form_rating_form_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
           wineId: this.props.wineId
         })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
           className: "rating-list-with-title"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "Recent ratings"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_rating_list_rating_list_container__WEBPACK_IMPORTED_MODULE_2__["default"], null)));
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+          className: "recent-ratings-title"
+        }, "Recent ratings"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_rating_list_rating_list_container__WEBPACK_IMPORTED_MODULE_2__["default"], null)));
       } else {
         rendering = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
           className: "null-holder"
         });
       }
 
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, rendering);
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        className: "one-column"
+      }, rendering);
     }
   }]);
 

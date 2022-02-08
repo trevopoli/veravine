@@ -18,14 +18,16 @@ const WineListItem = ({wine, deleteFavorite, createFavorite}) => {
     
     
     return (
-        <li className="wine-list-item">
+        <li className={`list-item-${wine.category}`}>
             <Link to={`/wines/${wine.id}`} >
-                {wine.brand}
-            </Link>
-            {favoriteIcon}
-            <div className="wine-list-item-avg-rating">
-                Average rating: {wine.avgRating}
+            <div className="wine-list-item">
+                <div className="wine-list-item-brand">{wine.brand}</div>
+                {favoriteIcon}
+                <div className="wine-list-item-avg-rating">
+                    Average rating: {wine.avgRating}
+                </div>
             </div>
+            </Link>
         </li>
     );
 }

@@ -1,0 +1,28 @@
+.recent-ratings-title {
+    font-size: 20px;
+    font-weight: 400;
+    margin: 10px 0 10px 0;
+}
+
+.rating-item-signature {
+    display: flex;
+    align-items: baseline;
+
+    .rating-item-user-link:hover {
+        color: darkred
+    }
+}
+
+.ratings-list-container {
+
+    ul {
+        display: flex;
+        flex-direction: column;
+        justify-content: baseline;
+
+        li {
+            margin: 10px 0 10px 0;
+            border-top: 1px solid lightgrey;
+        }
+    }
+}

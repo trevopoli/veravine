@@ -1,0 +1,25 @@
+.wine-show-container {
+    margin: 25px;
+}
+
+.wine-show-title-info  {
+    display: flex;
+    flex-direction: column;
+    justify-content: baseline;
+
+    .wine-show-title-brand {
+        font-size: 24px;
+        font-weight: 600;
+    }
+
+    .wine-show-title-variety {
+        font-size: 20px;
+        font-weight: 500;
+        font-style: italic;
+    }
+}
+
+.rating-form-title {
+    margin: 10px 0 5px 0;
+    font-weight: 500;
+}

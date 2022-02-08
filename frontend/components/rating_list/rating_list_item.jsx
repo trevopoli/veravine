@@ -7,9 +7,12 @@ const RatingListItem = ({ rating, destroyRating, userId }) => (
         <div className="rating-item-value">{rating.value}</div>
         <div className="rating-item-comment">{rating.comment}</div>
         { (rating.username) ? (
-            <Link to={`/users/${rating.user_id}`}>
-                <div className="rating-item-signature">by {rating.username}</div>
-            </Link>
+            <div className="rating-item-signature">
+                by&nbsp;
+                <Link to={`/users/${rating.user_id}`}>
+                    <div className="rating-item-user-link">{rating.username}</div>
+                </Link>
+            </div>
         ) : (null)}
         {(rating.user_id === userId) ? <button onClick={() => destroyRating(rating.id)}>Delete rating</button> : null}
     </li>

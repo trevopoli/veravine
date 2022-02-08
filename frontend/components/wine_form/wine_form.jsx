@@ -46,8 +46,9 @@ class WineForm extends React.Component {
             </ul>
         }
         return (
+            <div className="one-column">
             <div className="wine-form-container">
-                <h3 className="new-wine-form-title">Add a new wine</h3>
+                <div className="new-wine-form-title">Add a new wine</div>
                 {errorList}
 
                 <form className="new-wine-form" onSubmit={this.handleSubmit}>
@@ -101,6 +102,7 @@ class WineForm extends React.Component {
 
                     <input type="submit" value="Add Wine" className="new-wine-submit" />
                 </form>
+            </div>
             </div>
         )
     }

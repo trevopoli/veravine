@@ -19,7 +19,9 @@ class SimpleSearch extends React.Component  {
     }
 
     handleSubmit(e) {
-        this.props.simpleWineSearch(this.state.searchInput);
+        if (this.state.searchInput.length > 0) {
+            this.props.simpleWineSearch(this.state.searchInput);
+        }
     }
 
     render() {
@@ -32,11 +34,12 @@ class SimpleSearch extends React.Component  {
                         className="simple-search-input"
                         onChange={this.handleChange}
                         placeholder="Try something like 'La Crema Chardonnay'"
+                        onKeyUp={(e) => e.key == 'Enter' ? this.handleSubmit(e) : null}
                     />
                 </div>
                 <div className="simple-search-sumbit">
                     <button 
-                        className="sumple-search-submit-button"
+                        className="simple-search-submit-button"
                         onClick={this.handleSubmit}>
                     Search
                     </button>

@@ -23,7 +23,7 @@ class WineList extends React.Component {
                         createFavorite={this.props.createFavorite}
                      />)}
                 </ul>
-                <Link to="/wines/new">don't see your wine? add a new wine</Link>
+                <Link to="/wines/new" className="list-add-wine-footer">don't see your wine? add a new wine</Link>
             </div>
         )
     }

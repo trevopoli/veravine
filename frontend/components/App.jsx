@@ -22,19 +22,19 @@ const App = () => (
                 <GreetingContainer />
                 </div>
             </div>
-
-            <div className="grid-layout">
-                <AuthRoute path="/login" component={LoginFormContainer} />
-                <AuthRoute path="/signup" component={SignupFormContainer} />
-                <Switch>
-                    <ProtectedRoute exact path="/wines/new" component={WineFormContainer} />
-                    <Route exact path="/search" component={WineSearchContainer} />
-                    <Route exact path="/wines/:wineId" component={WineShowContainer} />
-                    <Route exact path="/users/:userId" component={UserShowContainer} />
-                    <Route exact path="/" component={HomeContainer} />
-                </Switch>
-            </div>
         </header>
+
+        <div className="grid-layout">
+            <AuthRoute path="/login" component={LoginFormContainer} />
+            <AuthRoute path="/signup" component={SignupFormContainer} />
+            <Switch>
+                <ProtectedRoute exact path="/wines/new" component={WineFormContainer} />
+                <Route exact path="/search" component={WineSearchContainer} />
+                <Route exact path="/wines/:wineId" component={WineShowContainer} />
+                <Route exact path="/users/:userId" component={UserShowContainer} />
+                <Route exact path="/" component={HomeContainer} />
+            </Switch>
+        </div>
     </div>
 );
 

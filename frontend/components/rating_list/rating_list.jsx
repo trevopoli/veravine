@@ -20,7 +20,7 @@ const RatingList = ({ ratings, destroyRating, userId }) => {
     }
 
     return (
-        <div className="rating-list-container">
+        <div className="ratings-list-container">
             {ratingsList}
         </div>
     )
