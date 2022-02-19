@@ -1,17 +1,18 @@
 .wine-list-container {
-    width: 65%;
+    width: 70%;
     margin: auto;
 
     .wine-list-item {
         margin: 12px 0 12px 0;
         padding: 10px;
         border: 1px solid lightgrey;
+        background-color: rgb(240, 240, 240);
         border-radius: 5px;
         box-shadow: 0 0 0 1px rgba(206, 206, 206, 0.1),0 6px 6px 0 rgba(238, 235, 233, 0.3);
 
         &:hover {
         border-radius: 5px;
-        box-shadow: 0 0 0 1px rgba(87,87,87,.1), 0 7px 7px 0 rgba(234,224,218,.3);
+        box-shadow: 0 0 0 2px rgba(87,87,87,.1), 0 7px 7px 0 rgba(234,224,218,.3);
         }
     }
 }
