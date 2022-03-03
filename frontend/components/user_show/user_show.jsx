@@ -45,33 +45,36 @@ class UserShow extends React.Component {
 
             rendering = (
                 <div className="user-show-container">
-                    <h3>{this.user.username}'s Profile</h3>
+                    <div className="user-show-header">
+                        <h3>{this.user.username}'s Profile</h3>
+                        {/* Follow Button */}
+
+                        <button
+                            className={this.user.following ? "unfollow-button" : "follow-button"}
+                            onClick={this.user.following ? this.unfollow : this.follow}
+                        >
+                            {this.user.following ? "Unfollow" : "Follow"}
+                        </button>
+                        {/*  */}
+                    </div>
                     <UserShowAbout 
                         currentUserId={this.props.currentUserId} 
                         user={this.user}
                         updateUserAbout={this.props.updateUserAbout}
                     />
-                    {/* Follow Button */}
-                    <button
-                        className={this.user.following ? "unfollow-button" : "follow-button"}
-                        onClick={this.user.following ? this.unfollow : this.follow}
-                    >
-                        {this.user.following ? "Unfollow" : "Follow"}
-                    </button>
-                    {/*  */}
+        
                     <h4>Recent ratings by {this.user.username}</h4>
                     <div className="user-recent-rating-list">
                         <RatingListContainer />
                     </div>
                 </div>
-
             )
         } else {
             rendering = <div className="user-show-null-holder"></div>
         }
 
         return(
-            <div>
+            <div className="one-column">
                 {rendering}
             </div>
         )

@@ -145,7 +145,7 @@ class WineSearch extends React.Component {
                             className="wine-search-min-rating"
                             />
 
-                        <label className="wine-search-following-only">Only show ratings from people your following </label>
+                        <label className="wine-search-following-only">Only show ratings from people you're following </label>
                         <input
                             type="checkbox"
                             onChange={this.handleChange('followingOnly')}

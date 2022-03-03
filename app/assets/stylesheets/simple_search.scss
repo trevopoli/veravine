@@ -1,6 +1,6 @@
 .simple-search-header {
     margin: 20px auto 20px auto;
-    width: 70%;
+    width: $content-width;
 
     .simple-search-container {
         margin: auto;
@@ -42,5 +42,38 @@
                 text-decoration: underline;
             }
         }
+}
+
+.home-image-header {
+    height: 200px;
+    width: $content-width;
+    max-width: 800px;
+    margin: auto;
+    margin-top: 10px;
+    background-image: url("/cork_header.jpg");
+    border-radius: 10px;
+    
+    .home-image-header-overlay {
+        height: 100%;
+        background: rgba(0,0,0,0.3);
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        h2 {
+            color: #FFF;
+            font-size: 32px;
+            font-weight: 600;
+        }
+
+        h3 {
+            color: #FFF;
+            font-size: 32px;
+            font-weight: 500;
+        }
+    }
+    
 }
 

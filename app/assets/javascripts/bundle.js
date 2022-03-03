@@ -623,7 +623,11 @@ var Home = /*#__PURE__*/function (_React$Component) {
         className: "one-column"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
         className: "home-container"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_simple_search_simple_search_container__WEBPACK_IMPORTED_MODULE_2__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_wine_list_wine_list_container__WEBPACK_IMPORTED_MODULE_1__["default"], null)));
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        className: "home-image-header"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        className: "home-image-header-overlay"
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h2", null, "Find the Perfect Bottle"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null, "from people you trust"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_simple_search_simple_search_container__WEBPACK_IMPORTED_MODULE_2__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_wine_list_wine_list_container__WEBPACK_IMPORTED_MODULE_1__["default"], null)));
     }
   }]);
 
@@ -1473,14 +1477,16 @@ var UserShow = /*#__PURE__*/function (_React$Component) {
       if (typeof this.user !== 'undefined') {
         rendering = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
           className: "user-show-container"
-        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null, this.user.username, "'s Profile"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_user_show_about__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+          className: "user-show-header"
+        }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h3", null, this.user.username, "'s Profile"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
+          className: this.user.following ? "unfollow-button" : "follow-button",
+          onClick: this.user.following ? this.unfollow : this.follow
+        }, this.user.following ? "Unfollow" : "Follow")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_user_show_about__WEBPACK_IMPORTED_MODULE_2__["default"], {
           currentUserId: this.props.currentUserId,
           user: this.user,
           updateUserAbout: this.props.updateUserAbout
-        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("button", {
-          className: this.user.following ? "unfollow-button" : "follow-button",
-          onClick: this.user.following ? this.unfollow : this.follow
-        }, this.user.following ? "Unfollow" : "Follow"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "Recent ratings by ", this.user.username), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("h4", null, "Recent ratings by ", this.user.username), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
           className: "user-recent-rating-list"
         }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement(_rating_list_rating_list_container__WEBPACK_IMPORTED_MODULE_1__["default"], null)));
       } else {
@@ -1489,7 +1495,9 @@ var UserShow = /*#__PURE__*/function (_React$Component) {
         });
       }
 
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", null, rendering);
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("div", {
+        className: "one-column"
+      }, rendering);
     }
   }]);
 
@@ -2274,7 +2282,7 @@ var WineSearch = /*#__PURE__*/function (_React$Component) {
         className: "wine-search-min-rating"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("label", {
         className: "wine-search-following-only"
-      }, "Only show ratings from people your following "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
+      }, "Only show ratings from people you're following "), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0__.createElement("input", {
         type: "checkbox",
         onChange: this.handleChange('followingOnly'),
         checked: this.state.followingOnly
