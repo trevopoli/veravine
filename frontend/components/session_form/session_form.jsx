@@ -49,43 +49,53 @@ class SessionForm extends React.Component {
         };
 
         return (
-            <div className="session-form-container">
-                <h3>{formTypeText}</h3>
-                <div className="session-nav-link">
-                    {navLink}
+            <div className="one-column">
+                <div className="session-form-container">
+                    <h3>{formTypeText}</h3>
+                    <div className="session-nav-link">
+                        {navLink}
+                    </div>
+                    {errorList}
+                    <form className="sessionForm" onSubmit={this.handleSubmit}>
+                        <div className="session-form-username">
+                            <label>Username: </label>
+                            <input
+                                type="text"
+                                className="session-form-username-container"
+                                value={this.state.username}
+                                onChange={this.handleChange('username')}>
+                            </input>
+                        </div>
+
+                        <div className="session-form-email-container">
+                            <label>Email: </label>
+                            <input
+                                type="text"
+                                className="session-form-email"
+                                value={this.state.email}
+                                onChange={this.handleChange('email')}>
+                            </input>
+                        </div>
+                        
+                        <div className="session-form-password-container">
+                            <label>Password: </label>
+                            <input
+                                type="password"
+                                className="session-form-password"
+                                value={this.state.password}
+                                onChange={this.handleChange('password')}>
+                            </input>
+                        </div>
+
+                        <div className="session-form-submit-container">
+                            <input
+                                type="submit" 
+                                className="session-form-submit"
+                                value={formTypeText}>
+                            </input>
+                        </div>
+                    </form>
                 </div>
-                {errorList}
-                <form className="sessionForm" onSubmit={this.handleSubmit}>
-                    <label>Username: </label>
-                    <input
-                        type="text"
-                        className="session-form-username"
-                        value={this.state.username}
-                        onChange={this.handleChange('username')}>
-                    </input>
-
-                    <label>Email: </label>
-                    <input
-                        type="text"
-                        className="session-form-email"
-                        value={this.state.email}
-                        onChange={this.handleChange('email')}>
-                    </input>
-
-                    <label>Password: </label>
-                    <input
-                        type="password"
-                        className="session-form-password"
-                        value={this.state.password}
-                        onChange={this.handleChange('password')}>
-                    </input>
-
-                    <input 
-                        type="submit" 
-                        className="session-form-submit"
-                        value={formTypeText}>
-                    </input>
-                </form>
             </div>
         );
     }
